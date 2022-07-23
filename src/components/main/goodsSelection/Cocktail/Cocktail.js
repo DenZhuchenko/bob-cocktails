@@ -10,7 +10,7 @@ const Cocktail = () => {
     const currentCocktailInfo = useSelector(state => state.cocktailList.cocktailItem)
     const dispatch = useDispatch()
     const {id} = useParams()
-
+    console.log(`currentCocktailInfo: `, currentCocktailInfo)
 
     useEffect(() => {
         dispatch(getCocktailItem(id))
