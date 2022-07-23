@@ -1,0 +1,17 @@
+.header {
+    display: grid;
+    grid-area: header;
+    background-color: #d5d5d0;
+}
+.headerWrapper{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.basket{
+    border-radius: 14px;
+}
+.basket:hover {
+    background-color: #819393;
+}
