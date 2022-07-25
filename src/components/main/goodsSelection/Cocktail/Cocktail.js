@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {cocktailAPI} from "../../../../api/cocktailAPI";
 import {Box, Image, Spinner} from "@chakra-ui/react";
 import {useDispatch, useSelector} from "react-redux";
-import {createCocktailItem, getCocktailItem} from "../../../../store/goodsSelectionSlice/index";
+import {getCocktailItem} from "../../../../store/goodsSelectionSlice/index";
 
 const Cocktail = () => {
 

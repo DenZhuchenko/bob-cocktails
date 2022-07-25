@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {cocktailAPI} from "../../api/cocktailAPI";
 import {setIngredientsAndMeasures} from "../../helpers";
 
@@ -10,79 +10,85 @@ export const getCocktailList = createAsyncThunk(
     }
 )
 
-
 export const getCocktailItem = createAsyncThunk(
     'cocktails/getCocktailItem',
-    async (id,{dispatch}) =>{
+    async (id, {dispatch}) => {
         const response = await cocktailAPI.getCocktailById(id)
         const ingredients = response.data.drinks[0]
-        const handleIngredients = setIngredientsAndMeasures(ingredients)
-        return handleIngredients
+        return setIngredientsAndMeasures(ingredients)
     }
 )
 
 const goodsSelectionSlice = createSlice({
-    name: 'cocktails',
-    initialState: {
-        cocktailList: [
-            {
-                name: 'name from cocktailList',
-                image: 'image from cocktailList',
-                id: 'id from cocktailList',
+        name: 'cocktails',
+        initialState: {
+            cocktailList: [
+                {
+                    name: 'name from cocktailList',
+                    image: 'image from cocktailList',
+                    id: 'id from cocktailList',
+                }
+            ],
+            cocktailItem: [
+                {
+                    name: 'name from cocktailItem',
+                    id: 'id from cocktailItem',
+                    ingredients: {}
+                }
+            ],
+            basket: [],
+            auth: false,
+            status: null,
+            error: null,
+        },
+
+
+        reducers: {
+            fillUpBasket(state, action) {
+                console.log('payload from Slice :', action.payload)
+
+
+
+                state.basket.push({
+                    name: action.payload.name,
+                    id: action.payload.id,
+                    image: action.payload.img,
+                    count: 1
+                })
+                localStorage.setItem('order', JSON.stringify(state.basket))
+
             }
-        ],
-        cocktailItem: [
-            {
-                name: 'name from cocktailItem',
-                id: 'id from cocktailItem',
-                ingredients: {}
-            }
-        ],
-        basket: [{
-            name: 'name from basket',
-            image: 'image from basket',
-            id: 'id from basket',
-        }],
-        auth: false,
-        status: null,
-        error: null,
-    },
+        },
+
+        extraReducers: (builder) => {
+
+            builder.addCase(getCocktailList.pending, (state) => {
+                state.status = 'pending'
+            })
+            builder.addCase(getCocktailList.fulfilled, (state, action) => {
+                state.cocktailList = action.payload
+                state.status = 'fulfilled'
+            })
+            builder.addCase(getCocktailList.rejected, (state) => {
+                state.status = 'rejected'
+            })
 
 
-    reducers: {
+            builder.addCase(getCocktailItem.pending, (state, action) => {
+                state.status = 'pending'
+            })
+            builder.addCase(getCocktailItem.fulfilled, (state, action) => {
+                state.cocktailItem = action.payload
+            })
+            builder.addCase(getCocktailItem.rejected, (state, action) => {
+                state.status = 'rejected'
+            })
 
-
-    },
-
-    extraReducers:(builder) => {
-
-        builder.addCase(getCocktailList.pending, (state) =>{
-            state.status = 'pending'
-        })
-        builder.addCase(getCocktailList.fulfilled, (state, action) =>{
-            state.cocktailList = action.payload
-            state.status = 'fulfilled'
-        })
-        builder.addCase(getCocktailList.rejected, (state) =>{
-            state.status = 'rejected'
-        })
-
-
-        builder.addCase(getCocktailItem.pending, (state, action) =>{
-            state.status = 'pending'
-        })
-        builder.addCase(getCocktailItem.fulfilled, (state, action) =>{
-            state.cocktailItem = action.payload
-        })
-        builder.addCase(getCocktailItem.rejected, (state, action) =>{
-            state.status = 'rejected'
-        })
-
+        }
     }
-}
 )
 
-export const {createBasket, createCocktailItem, createCocktailList} = goodsSelectionSlice.actions
+export const {fillUpBasket} = goodsSelectionSlice.actions
 
 export default goodsSelectionSlice.reducer
 

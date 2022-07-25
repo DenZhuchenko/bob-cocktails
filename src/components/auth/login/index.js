@@ -41,6 +41,7 @@ const Login = (props) => {
                                     loginHandler(true)
                                 })
                                 console.log('values: ', values)
+
                                 resetForm({
                                     email: '',
                                     password: '',

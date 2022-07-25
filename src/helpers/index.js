@@ -1,6 +1,5 @@
 export const setIngredientsAndMeasures = (tempCocktail) => {
 
-
     const asArray = Object.entries(tempCocktail)
     const filtered = asArray.filter(([key, value]) => typeof value === 'string')
     const justStrings = Object.fromEntries(filtered)
@@ -21,6 +20,5 @@ export const setIngredientsAndMeasures = (tempCocktail) => {
         img: tempCocktail.strDrinkThumb,
         ingredients: ingredients
     }
-
 
 }
