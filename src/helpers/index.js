@@ -18,7 +18,8 @@ export const setIngredientsAndMeasures = (tempCocktail) => {
     return {
         name: tempCocktail.strDrink,
         img: tempCocktail.strDrinkThumb,
-        ingredients: ingredients
+        ingredients: ingredients,
+        id: tempCocktail.idDrink
     }
 
 }

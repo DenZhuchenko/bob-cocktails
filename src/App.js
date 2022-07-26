@@ -7,16 +7,11 @@ import Registration from "./components/auth/registration";
 import Login from "./components/auth/login";
 import MainLayout from "./components/layout/mainLayout";
 import Basket from "./components/header/basket/basket";
-import {useState} from "react";
 
 
 const App = () => {
 
-   const [login, setLogin] = useState(false)
 
-    const loginHandler = (loginInfo) =>{
-         setLogin(loginInfo)
-    }
 
 
     return (
@@ -25,14 +20,14 @@ const App = () => {
             <Routes>
                 <Route path={'/'} element={<AppLayout />}>
 
-                    <Route path={'/'} element={<MainLayout login={login}/>}>
+                    <Route path={'/'} element={<MainLayout />}>
                         <Route path={':ingredientName/*'} element={<GoodsSelection />}/>
                         <Route path={`:ingredientName/:id`} element={<Cocktail/>}/>
                     </Route>
 
                     <Route path={`registration`} element={<Registration/>}/>
                     <Route path={'test'} element={<p>Test</p>}/>
-                    <Route path={`login`} element={<Login loginHandler={loginHandler} />}/>
+                    <Route path={`login`} element={<Login />}/>
                     <Route path={'basket'} element={<Basket/>}/>
                     <Route path='*' element={<PageNotFound/>}/>
                 </Route>

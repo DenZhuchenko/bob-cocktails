@@ -2,21 +2,27 @@ import React, {useEffect, useState} from 'react'
 import {Box, Button, Flex, Heading, Text} from "@chakra-ui/react";
 import {NavLink} from "react-router-dom";
 import {signOutUser, userObserver} from "../../api/firebase";
+import {useDispatch, useSelector} from "react-redux";
+import {basketAfterReload, clearAllBasket} from "../../store/goodsSelectionSlice";
 
 const Header = () => {
 
 
-    const [login, setLogin] = useState('')
-    const sessionJSON = localStorage.getItem('session_json')
-    // console.log('login from header: ', login)
 
-    const loginHandler = () => {
-        setLogin(sessionJSON)
+
+    const basketBeforeInitialize = JSON.parse(localStorage.getItem('order'))
+        ? JSON.parse(localStorage.getItem('order'))
+        : null
+    const dispatch = useDispatch()
+
+    const clearBasket = () => {
+        dispatch(clearAllBasket())
     }
+
 
     useEffect(() => {
         userObserver()
-        loginHandler()
+        dispatch(basketAfterReload(basketBeforeInitialize))
     }, [])
 
     return (
@@ -29,7 +35,7 @@ const Header = () => {
         >
             <Flex>
                 <Heading pl={'6rem'} as="h1" size="lg" letterSpacing={"-.1rem"}>
-                    <NavLink to={'/'}>
+                    <NavLink to={'/Light%20rum'}>
                         {/*<Img src={logo} alt={'logo'} h={'3rem'} />*/}
                         <Text pt='0.5rem' color='black' h='3rem'>Bob's Store</Text>
                     </NavLink>
@@ -45,27 +51,23 @@ const Header = () => {
             </Button>
 
             <Box>
-
-                {
-                    !login ? <Button
-                            bg="transparent"
-                            border="2px"
-                            color='black'
-                            onClick={signOutUser}
-                        >
-                            Logout
-                        </Button>
-                        : <NavLink to={'/login'}>
-                            <Button
-                                bg="transparent"
-                                border="2px"
-                                color='black'
-                            >
-                                Login
-                            </Button>
-                        </NavLink>
-
-                }
+                <Button
+                    bg="transparent"
+                    border="2px"
+                    color='black'
+                    onClick={signOutUser}
+                >
+                    Logout
+                </Button>
+                <NavLink to={'/login'}>
+                    <Button
+                        bg="transparent"
+                        border="2px"
+                        color='black'
+                    >
+                        Login
+                    </Button>
+                </NavLink>
 
 
                 <NavLink to={'/basket'}>
@@ -79,6 +81,13 @@ const Header = () => {
                         Basket
                     </Button>
                 </NavLink>
+                <Button
+                    onClick={clearBasket}
+                >
+                    Reset Basket
+                </Button>
+
+
 
             </Box>
         </Flex>

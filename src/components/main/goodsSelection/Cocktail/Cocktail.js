@@ -56,7 +56,10 @@ const Cocktail = () => {
                     <br/>
 
                     <Box>
-                        {Math.round(Math.random() * 25)}
+                        {    currentCocktailInfo.id
+                            ? currentCocktailInfo.id.substring(0, 2) - 7
+                            : null
+                        }
                         <Box as='span' color='gray.600' fontSize='sm'>
                             $
                         </Box>

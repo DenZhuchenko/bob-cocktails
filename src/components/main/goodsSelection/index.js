@@ -42,7 +42,7 @@ const GoodsSelection = () => {
 
                     <Box textAlign='center'>
                         <Button onClick={() => {
-                            console.log('cocktailListbasket cocktailListbasket: ', cocktailList.basket)
+                            console.log('cocktailListbasket cocktailListbasket: ', basketList)
 
                             dispatch( fillUpBasket(
                                     {
@@ -58,8 +58,10 @@ const GoodsSelection = () => {
 
                     <Box display='flex' mt='2' alignItems='center'>
                         <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-
-                            {Math.round(Math.random() * 15)} likes
+                            {   el.idDrink
+                                ? el.idDrink.substring(0, 2) - 7
+                                : null
+                            } $
                         </Box>
                     </Box>
                 </Box>

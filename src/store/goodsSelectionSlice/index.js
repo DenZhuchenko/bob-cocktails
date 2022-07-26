@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {cocktailAPI} from "../../api/cocktailAPI";
 import {setIngredientsAndMeasures} from "../../helpers";
+import basket from "../../components/header/basket/basket";
 
 export const getCocktailList = createAsyncThunk(
     'cocktails/getCocktailList',
@@ -44,19 +45,29 @@ const goodsSelectionSlice = createSlice({
 
 
         reducers: {
+            basketAfterReload(state, action) {
+                action.payload
+                    ? state.basket = action.payload
+                    : state.basket = state.basket
+            },
             fillUpBasket(state, action) {
                 console.log('payload from Slice :', action.payload)
-
-
-
+                console.log('state from fillUpBasket before filter: ', state.basket)
                 state.basket.push({
                     name: action.payload.name,
                     id: action.payload.id,
                     image: action.payload.img,
                     count: 1
                 })
+
+                state.basket = Array.from(new Set(state.basket))
                 localStorage.setItem('order', JSON.stringify(state.basket))
 
+            },
+            clearAllBasket(state){
+                console.log('We are here after Click Clear')
+                localStorage.removeItem('order')
+                state.basket = []
             }
         },
 
@@ -88,7 +99,7 @@ const goodsSelectionSlice = createSlice({
     }
 )
 
-export const {fillUpBasket} = goodsSelectionSlice.actions
+export const {clearAllBasket, fillUpBasket, basketAfterReload} = goodsSelectionSlice.actions
 
 export default goodsSelectionSlice.reducer
 
