@@ -10,11 +10,14 @@ export const setIngredientsAndMeasures = (tempCocktail) => {
     const ingredientValue = Object.values(SortedIngredients)
     const measureValue = Object.values(SortedMeasure)
 
-
     let finalRatioKeys = ingredientValue
     let finalRatioValues = measureValue
     let ingredients = {};
     finalRatioKeys.forEach((key, i) => ingredients[key] = finalRatioValues[i]);
+
+    console.log(`ingredients: `, ingredients)
+
+
     return {
         name: tempCocktail.strDrink,
         img: tempCocktail.strDrinkThumb,

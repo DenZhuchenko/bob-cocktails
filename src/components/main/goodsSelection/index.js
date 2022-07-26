@@ -11,14 +11,11 @@ const GoodsSelection = () => {
     const dispatch = useDispatch()
     let {ingredientName} = useParams()
 
-     console.log('basketList basketList: ', basketList)
 
 
     useEffect(() => {
         dispatch(getCocktailList(ingredientName))
     }, [ingredientName])
-
-    // console.log(`basketState: `, basketState)
 
 
     const ItemCardCreator = () => {

@@ -23,7 +23,7 @@ const Cocktail = () => {
             ? Object.entries(currentCocktailInfo.ingredients).map(([key, value]) =>
                 <Box fontWeight='semibold'
                      key={value + Math.random()}>
-                    {` ${value }    ${key}`}
+                    {value ? value : null}{key}
                 </Box>
             ) : <Spinner
                 thickness='4px'
@@ -56,7 +56,7 @@ const Cocktail = () => {
                     <br/>
 
                     <Box>
-                        {    currentCocktailInfo.id
+                        {currentCocktailInfo.id
                             ? currentCocktailInfo.id.substring(0, 2) - 7
                             : null
                         }

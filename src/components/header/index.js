@@ -9,6 +9,9 @@ const Header = () => {
 
 
 
+    const basketData = useSelector(state => state.cocktailList.basket)
+
+
 
     const basketBeforeInitialize = JSON.parse(localStorage.getItem('order'))
         ? JSON.parse(localStorage.getItem('order'))
@@ -24,6 +27,8 @@ const Header = () => {
         userObserver()
         dispatch(basketAfterReload(basketBeforeInitialize))
     }, [])
+
+    const counter = 2
 
     return (
         <Flex
@@ -78,7 +83,7 @@ const Header = () => {
                         bg='transparent'
                         border='2px'
                     >
-                        Basket
+                        Basket   {basketData.length? basketData.length: null}
                     </Button>
                 </NavLink>
                 <Button

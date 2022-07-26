@@ -1,12 +1,21 @@
 import React, {useState} from 'react'
-import {Box, Flex, HStack, Img, VStack} from "@chakra-ui/react";
-import {useSelector} from "react-redux";
+import {Box, Button, Flex, HStack, Img, Text, VStack} from "@chakra-ui/react";
+import {useDispatch, useSelector} from "react-redux";
+import {decrementProductInBasket, incrementProductInBasket} from "../../../store/goodsSelectionSlice";
 
 
 const Basket = () => {
 
     const basketItems = useSelector(state => state.cocktailList.basket)
-    let order = JSON.parse(localStorage.getItem('order'))
+    const dispatch = useDispatch()
+
+
+    const increment = (count, id) => {
+          dispatch(incrementProductInBasket({count, id}))
+    }
+    const decrement = (count, id) => {
+          dispatch(decrementProductInBasket({count, id}))
+    }
 
     const ItemList = () => {
 
@@ -14,7 +23,7 @@ const Basket = () => {
                 <Flex>
                     <HStack>
                         <Box>
-                            {basketItems.map((item, key) =>
+                            {basketItems.map((item) =>
 
                                 <Box key={item.id + Math.random()}
                                      display={'flex'}
@@ -30,9 +39,33 @@ const Basket = () => {
                                          width={'100px'}/>
                                     {item.name}
                                     <div>
-                                        Price:
+                                        Price:  
                                         {item.id.substring(0, 2) - 7}$
                                     </div>
+                                    <br/>
+                                    <div>
+                                        Count: {item.count}
+                                        <br/>
+                                        <Button
+                                            onClick={()=>{increment(item.count, item.id)}}
+                                        >
+                                            +
+                                        </Button>
+
+                                        { item.count > 1
+                                            ? <Button
+                                                onClick={() =>{decrement(item.count, item.id)}}
+                                            >
+                                                -
+                                            </Button>
+                                            : <Button
+                                                disabled={'disable'}
+                                            >
+                                                -
+                                            </Button>
+                                        }
+                                    </div>
+                                    <Text>Summ Price {item.count*(item.id.substring(0, 2) - 7)}</Text>
                                 </Box>
                             )}
                         </Box>
@@ -50,7 +83,7 @@ const Basket = () => {
         >
             <Box
                 h='80vh'
-                w='60vh'
+                w='70vh'
                 bg='white'
                 rounded='md'
                 overflow={'auto'}

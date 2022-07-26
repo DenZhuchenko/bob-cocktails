@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {cocktailAPI} from "../../api/cocktailAPI";
 import {setIngredientsAndMeasures} from "../../helpers";
-import basket from "../../components/header/basket/basket";
+
 
 export const getCocktailList = createAsyncThunk(
     'cocktails/getCocktailList',
@@ -11,6 +11,7 @@ export const getCocktailList = createAsyncThunk(
     }
 )
 
+
 export const getCocktailItem = createAsyncThunk(
     'cocktails/getCocktailItem',
     async (id, {dispatch}) => {
@@ -19,6 +20,7 @@ export const getCocktailItem = createAsyncThunk(
         return setIngredientsAndMeasures(ingredients)
     }
 )
+
 
 const goodsSelectionSlice = createSlice({
         name: 'cocktails',
@@ -46,30 +48,72 @@ const goodsSelectionSlice = createSlice({
 
         reducers: {
             basketAfterReload(state, action) {
+                const payload = action.payload
                 action.payload
-                    ? state.basket = action.payload
+                    ? state.basket = payload
                     : state.basket = state.basket
             },
-            fillUpBasket(state, action) {
-                console.log('payload from Slice :', action.payload)
-                console.log('state from fillUpBasket before filter: ', state.basket)
-                state.basket.push({
-                    name: action.payload.name,
-                    id: action.payload.id,
-                    image: action.payload.img,
-                    count: 1
-                })
 
-                state.basket = Array.from(new Set(state.basket))
+            fillUpBasket(state, action) {
+
+                const payload = action.payload
+                console.log('payload from Slice :', payload)
+                console.log('state from fillUpBasket before filter: ', state.basket)
+
+                const exist = state.basket.find(product => product.id === payload.id)
+                exist? console.log('already exist') : console.log('new product')
+
+                if(exist){
+                    state.basket.map(el => el.id === payload.id
+                        ? el.count = el.count + 1
+                        : el.count)
+                } else {
+                    state.basket.push({
+                        name: payload.name,
+                        id: payload.id,
+                        image: payload.img,
+                        count: 1
+                    })
+                }
+
                 localStorage.setItem('order', JSON.stringify(state.basket))
 
             },
+
             clearAllBasket(state){
                 console.log('We are here after Click Clear')
                 localStorage.removeItem('order')
                 state.basket = []
-            }
+            },
+
+
+
+            incrementProductInBasket(state, action){
+
+                const payload = action.payload
+                const exist = state.basket.find(product => product.id === payload.id)
+                if(exist){
+                    state.basket.map(el => el.id === payload.id
+                        ? el.count = el.count + 1
+                        : el.count)
+                }
+                localStorage.setItem('order', JSON.stringify(state.basket))
+            },
+
+            decrementProductInBasket(state, action){
+                const payload = action.payload
+                const exist = state.basket.find(product => product.id === payload.id)
+                if(exist){
+                    state.basket.map(el => el.id === payload.id
+                        ? el.count = el.count - 1
+                        : el.count)
+                }
+                localStorage.setItem('order', JSON.stringify(state.basket))
+
+            },
         },
+
+
 
         extraReducers: (builder) => {
 
@@ -99,8 +143,7 @@ const goodsSelectionSlice = createSlice({
     }
 )
 
-export const {clearAllBasket, fillUpBasket, basketAfterReload} = goodsSelectionSlice.actions
+export const {clearAllBasket, fillUpBasket, basketAfterReload, decrementProductInBasket, incrementProductInBasket} = goodsSelectionSlice.actions
 
 export default goodsSelectionSlice.reducer
-
 
