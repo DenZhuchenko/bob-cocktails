@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {Box, Button, Flex, Heading, Text} from "@chakra-ui/react";
 import {NavLink} from "react-router-dom";
 import {signOutUser, userObserver} from "../../api/firebase";
@@ -28,7 +28,6 @@ const Header = () => {
         dispatch(basketAfterReload(basketBeforeInitialize))
     }, [])
 
-    const counter = 2
 
     return (
         <Flex

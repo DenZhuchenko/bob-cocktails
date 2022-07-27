@@ -3,7 +3,6 @@ import Header from "../../header";
 import Footer from "../../footer";
 import {Grid, GridItem} from "@chakra-ui/react";
 import {Outlet} from 'react-router'
-import NavBar from "../../main/navBar";
 
 const AppLayout = (props) => {
     const {login} = props

@@ -40,6 +40,7 @@ const goodsSelectionSlice = createSlice({
                 }
             ],
             basket: [],
+            sumPrice: null,
             auth: false,
             status: null,
             error: null,
@@ -111,6 +112,10 @@ const goodsSelectionSlice = createSlice({
                 localStorage.setItem('order', JSON.stringify(state.basket))
 
             },
+            sumBasketPrice(state, action){
+                const payload = action.payload
+                state.sumPrice = state.sumPrice + payload
+            }
         },
 
 
@@ -143,7 +148,14 @@ const goodsSelectionSlice = createSlice({
     }
 )
 
-export const {clearAllBasket, fillUpBasket, basketAfterReload, decrementProductInBasket, incrementProductInBasket} = goodsSelectionSlice.actions
+export const {
+    clearAllBasket,
+    fillUpBasket,
+    basketAfterReload,
+    decrementProductInBasket,
+    incrementProductInBasket,
+    sumBasketPrice
+} = goodsSelectionSlice.actions
 
 export default goodsSelectionSlice.reducer
 

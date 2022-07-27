@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Box, Button, Flex, HStack, Img, Text, VStack} from "@chakra-ui/react";
 import {useDispatch, useSelector} from "react-redux";
 import {decrementProductInBasket, incrementProductInBasket} from "../../../store/goodsSelectionSlice";
@@ -10,11 +10,36 @@ const Basket = () => {
     const dispatch = useDispatch()
 
 
+    const sumPricePerItemHandler = (count, pricePerItem) => {
+        const price = pricePerItem.substring(0, 2) - 7 //Getting at least smt, what we can use as price
+        const sum = count * (price)
+        const correct = sum % count === 0 && sum > 0
+        console.log(`correct: `, correct)
+        if (correct) {
+            return sum + `$`
+        } else return <div>
+            Error, smt strange was occurred
+        </div>
+
+
+    }
+
+    const SumPrise = () => {
+        if (basketItems) {
+            let sumArr = basketItems.map(el =>
+                el.count * (el.id.substring(0, 2) - 7)
+            )
+            return <div>Total: {sumArr.reduce((sum, elem) => sum + elem, 0)}$</div>
+        } else return <div>Error</div>
+
+
+    }
+
     const increment = (count, id) => {
-          dispatch(incrementProductInBasket({count, id}))
+        dispatch(incrementProductInBasket({count, id}))
     }
     const decrement = (count, id) => {
-          dispatch(decrementProductInBasket({count, id}))
+        dispatch(decrementProductInBasket({count, id}))
     }
 
     const ItemList = () => {
@@ -35,39 +60,53 @@ const Basket = () => {
                                      m={'1em'}
                                      w='55vh'
                                 >
-                                    <Img src={item.image} alt={`procuct + ${item.name}`} height={'100px'}
+                                    <Img src={item.image} alt={`product + ${item.name}`} height={'100px'}
                                          width={'100px'}/>
                                     {item.name}
                                     <div>
-                                        Price:  
+                                        Price:
                                         {item.id.substring(0, 2) - 7}$
                                     </div>
                                     <br/>
                                     <div>
                                         Count: {item.count}
                                         <br/>
-                                        <Button
-                                            onClick={()=>{increment(item.count, item.id)}}
-                                        >
-                                            +
-                                        </Button>
 
-                                        { item.count > 1
+
+                                        {item.count > 1
                                             ? <Button
-                                                onClick={() =>{decrement(item.count, item.id)}}
+                                                onClick={() => {
+                                                    decrement(item.count, item.id)
+                                                }}
                                             >
                                                 -
                                             </Button>
                                             : <Button
-                                                disabled={'disable'}
+                                                disabled='disable'
                                             >
                                                 -
                                             </Button>
                                         }
+                                        <Button
+                                            onClick={() => {
+                                                increment(item.count, item.id)
+                                            }}
+                                        >
+                                            +
+                                        </Button>
+
+
                                     </div>
-                                    <Text>Summ Price {item.count*(item.id.substring(0, 2) - 7)}</Text>
+
+                                    <Text>Sum Price {
+                                        sumPricePerItemHandler(item.count, item.id)
+                                    }</Text>
                                 </Box>
                             )}
+                            <div><SumPrise/></div>
+
+                            <div>
+                            </div>
                         </Box>
                     </HStack>
                 </Flex>

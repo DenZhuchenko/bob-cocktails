@@ -3,7 +3,7 @@ import NavBar from "../../main/navBar";
 import {Grid, GridItem} from "@chakra-ui/react";
 import {Outlet} from "react-router";
 
-const MainLayout = (props) =>{
+const MainLayout = () =>{
 
     return(
         <Grid templateAreas={`

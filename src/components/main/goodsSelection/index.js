@@ -7,8 +7,7 @@ import {getCocktailList, fillUpBasket} from '../../../store/goodsSelectionSlice/
 const GoodsSelection = () => {
     const data = useSelector(state => state.cocktailList)
     const cocktailList = data.cocktailList
-    const basketList = data.basket
-    const dispatch = useDispatch()
+     const dispatch = useDispatch()
     let {ingredientName} = useParams()
 
 
@@ -39,7 +38,6 @@ const GoodsSelection = () => {
 
                     <Box textAlign='center'>
                         <Button onClick={() => {
-                            console.log('cocktailListbasket cocktailListbasket: ', basketList)
 
                             dispatch( fillUpBasket(
                                     {
