@@ -56,15 +56,14 @@ const goodsSelectionSlice = createSlice({
             },
 
             fillUpBasket(state, action) {
-
                 const payload = action.payload
                 console.log('payload from Slice :', payload)
                 console.log('state from fillUpBasket before filter: ', state.basket)
 
                 const exist = state.basket.find(product => product.id === payload.id)
-                exist? console.log('already exist') : console.log('new product')
+                exist ? console.log('already exist') : console.log('new product')
 
-                if(exist){
+                if (exist) {
                     state.basket.map(el => el.id === payload.id
                         ? el.count = el.count + 1
                         : el.count)
@@ -81,19 +80,29 @@ const goodsSelectionSlice = createSlice({
 
             },
 
-            clearAllBasket(state){
+            clearAllBasket(state) {
                 console.log('We are here after Click Clear')
                 localStorage.removeItem('order')
                 state.basket = []
             },
 
 
+            removeBasketItem(state, action) {
+                const payload = action.payload
+                console.log('state in removeBasketItem: ', state)
+                const exist = state.basket.find(product => product.id === payload)
+                if (exist){
+                    state.basket = state.basket.filter(product => product.id !== payload)
+                } else return state.basket
 
-            incrementProductInBasket(state, action){
+            },
+
+
+            incrementProductInBasket(state, action) {
 
                 const payload = action.payload
                 const exist = state.basket.find(product => product.id === payload.id)
-                if(exist){
+                if (exist) {
                     state.basket.map(el => el.id === payload.id
                         ? el.count = el.count + 1
                         : el.count)
@@ -101,10 +110,10 @@ const goodsSelectionSlice = createSlice({
                 localStorage.setItem('order', JSON.stringify(state.basket))
             },
 
-            decrementProductInBasket(state, action){
+            decrementProductInBasket(state, action) {
                 const payload = action.payload
                 const exist = state.basket.find(product => product.id === payload.id)
-                if(exist){
+                if (exist) {
                     state.basket.map(el => el.id === payload.id
                         ? el.count = el.count - 1
                         : el.count)
@@ -112,12 +121,11 @@ const goodsSelectionSlice = createSlice({
                 localStorage.setItem('order', JSON.stringify(state.basket))
 
             },
-            sumBasketPrice(state, action){
+            sumBasketPrice(state, action) {
                 const payload = action.payload
                 state.sumPrice = state.sumPrice + payload
             }
         },
-
 
 
         extraReducers: (builder) => {
@@ -154,7 +162,8 @@ export const {
     basketAfterReload,
     decrementProductInBasket,
     incrementProductInBasket,
-    sumBasketPrice
+    sumBasketPrice,
+    removeBasketItem
 } = goodsSelectionSlice.actions
 
 export default goodsSelectionSlice.reducer

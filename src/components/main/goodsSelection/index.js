@@ -19,27 +19,26 @@ const GoodsSelection = () => {
 
     const ItemCardCreator = () => {
         return cocktailList.map((el, key) =>
-            <Box key={key} m={'25'} maxW='sm' borderColor={'black'} borderWidth='1px' borderRadius='lg'
-                 overflow='hidden'>
-                <NavLink to={`${el.idDrink}`}>
-                    <Image src={el.strDrinkThumb} alt='imageAlt'/>
-                </NavLink>
-                <Box p='6'>
-                    <Box
-                        mt='1'
-                        fontWeight='bold'
-                        as='h2'
-                        lineHeight='tight'
-                        noOfLines={1}
-                        textAlign='center'
-                    >
-                        {el.strDrink}
-                    </Box>
+                <Box key={key} m={'25'} maxW='sm' borderColor={'black'} borderWidth='1px' borderRadius='lg'
+                     overflow='hidden'>
+                    <NavLink to={`${el.idDrink}`}>
+                        <Image src={el.strDrinkThumb} alt='imageAlt'/>
+                    </NavLink>
+                        <Box
+                            mt='1'
+                            fontWeight='bold'
+                            as='h2'
+                            lineHeight='tight'
+                            noOfLines={1}
+                            textAlign='center'
+                        >
+                            {el.strDrink}
+                        </Box>
 
-                    <Box textAlign='center'>
-                        <Button onClick={() => {
+                        <Box textAlign='center'>
+                            <Button onClick={() => {
 
-                            dispatch( fillUpBasket(
+                                dispatch( fillUpBasket(
                                     {
                                         name: el.strDrink,
                                         id: el.idDrink,
@@ -47,21 +46,19 @@ const GoodsSelection = () => {
                                         count: 1
                                     }
                                 ))
-                        }}>
-                            Add to Basket</Button>
-                    </Box>
-
-                    <Box display='flex' mt='2' alignItems='center'>
-                        <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                            {   el.idDrink
-                                ? el.idDrink.substring(0, 2) - 7
-                                : null
-                            } $
+                            }}>
+                                Add to Basket</Button>
                         </Box>
-                    </Box>
-                </Box>
 
-            </Box>
+                        <Box display='flex' mt='2' alignItems='center'>
+                            <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+                                {   el.idDrink
+                                    ? el.idDrink.substring(0, 2) - 7
+                                    : null
+                                } $
+                            </Box>
+                        </Box>
+                </Box>
         )
 
     }
