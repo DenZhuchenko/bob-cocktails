@@ -3,6 +3,11 @@ import {Box, Button, Flex, HStack, Img, Text, VStack} from "@chakra-ui/react";
 import {useDispatch, useSelector} from "react-redux";
 import {decrementProductInBasket, incrementProductInBasket, removeBasketItem} from "../../../store/goodsSelectionSlice";
 import BasketItem from "./basketItem";
+import SumPrise from "./sumPrise";
+
+
+
+
 
 
 const Basket = () => {
@@ -10,25 +15,28 @@ const Basket = () => {
     const basketItems = useSelector(state => state.cocktailList.basket)
 
 
-    const SumPrise = () => {
 
-        if (basketItems) {
-            let sumArr = basketItems.map(el =>
-                el.count * (el.id.substring(0, 2) - 7)
-            )
-            return <Box
-                border={"2px solid green"}
-                borderRadius={'5px'}
-                p={'25px'}
-            >
-                Total:  
-                {sumArr.reduce((sum, elem) => sum + elem, 0)}$
-            </Box>
-        } else return <div>Error</div>
-
-
-    }
-
+    // const SumPrise = (items) => {
+    //
+    //     if (basketItems) {
+    //         let sumArr = basketItems.map(el =>
+    //             el.count * (el.id.substring(0, 2) - 7)
+    //         )
+    //         return <Box
+    //             border={"2px solid green"}
+    //             borderRadius={'5px'}
+    //             p={'25px'}
+    //         >
+    //             Total:
+    //             {sumArr.reduce((sum, elem) => sum + elem, 0)}$
+    //             <Button
+    //                 ml={'2rem'}
+    //                 bg={'green.100'}
+    //             >Buy now
+    //             </Button>
+    //         </Box>
+    //     } else return <div>Error</div>
+    // }
 
 
     return (
@@ -54,7 +62,7 @@ const Basket = () => {
                                 Basket is currently empty
                             </div>
                     }
-                    <div><SumPrise/></div>
+                    <div><SumPrise items={basketItems}/></div>
                 </VStack>
             </Box>
         </Flex>

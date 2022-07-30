@@ -2,8 +2,7 @@ import React from 'react'
 import {
     Box,
     Button,
-    Flex,
-    HStack, IconButton,
+    IconButton,
     Img,
     Popover,
     PopoverTrigger,
@@ -25,7 +24,6 @@ import {SmallCloseIcon} from '@chakra-ui/icons'
 const BasketItem = (props) => {
     const {basketItems} = props
     const dispatch = useDispatch()
-
 
 
     const increment = (count, id) => {
@@ -107,7 +105,6 @@ const BasketItem = (props) => {
 
                         <Popover placement="top" isLazy>
                             <PopoverTrigger>
-
                                 <IconButton
                                     ml={`3rem`}
                                     aria-label="More server options"

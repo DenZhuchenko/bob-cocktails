@@ -87,6 +87,7 @@ const goodsSelectionSlice = createSlice({
             },
 
 
+
             removeBasketItem(state, action) {
                 const payload = action.payload
                 console.log('state in removeBasketItem: ', state)

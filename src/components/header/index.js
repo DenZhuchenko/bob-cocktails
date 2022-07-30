@@ -90,6 +90,9 @@ const Header = () => {
                 >
                     Reset Basket
                 </Button>
+                <Button>
+                    <NavLink to={'payment'} >Payment</NavLink>
+                </Button>
 
 
 
