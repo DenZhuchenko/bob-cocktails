@@ -3,38 +3,44 @@ import {initializeApp} from "firebase/app";
 import {getStorage} from "firebase/storage";
 import {
     createUserWithEmailAndPassword,
-    signOut,
     getAuth,
-    signInWithEmailAndPassword,
     onAuthStateChanged,
-    updateProfile
+    signInWithEmailAndPassword,
+    signOut,
+    updateProfile,
+    getAdditionalUserInfo,
+    Auth
 } from 'firebase/auth'
-import axios from "axios";
-
+//npm install -g firebase-tools//
 
 const firebaseConfig = {
+
     apiKey: "AIzaSyDE5BM4cvTw69Cs-pthg_Sx9AGXS8TKZXk",
     authDomain: "bobstore-8a731.firebaseapp.com",
     databaseURL: "https://bobstore-8a731-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "bobstore-8a731",
     storageBucket: "bobstore-8a731.appspot.com",
     messagingSenderId: "992653670865",
-    appId: "1:992653670865:web:65f131c3089a2259fd08f0",
-    measurementId: "G-WYE6WTZ5BN"
+    appId: "1:992653670865:web:8a41874420cb155dfd08f0",
+    measurementId: "G-DBMD3BRGY0"
+
+    // apiKey: "AIzaSyDE5BM4cvTw69Cs-pthg_Sx9AGXS8TKZXk",
+    // authDomain: "bobstore-8a731.firebaseapp.com",
+    // databaseURL: "https://bobstore-8a731-default-rtdb.europe-west1.firebasedatabase.app",
+    // projectId: "bobstore-8a731",
+    // storageBucket: "bobstore-8a731.appspot.com",
+    // messagingSenderId: "992653670865",
+    // appId: "1:992653670865:web:65f131c3089a2259fd08f0",
+    // measurementId: "G-WYE6WTZ5BN"
 };
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+export const firebaseApp = initializeApp(firebaseConfig);
 export const storage = getStorage(firebaseApp);
-const auth = getAuth()
+export const auth = getAuth()
 
 
-
-
-
-
-
-
+console.log('auth from firebase: ', auth ? auth.currentUser : 'sasat')
 
 
 export const createUser = async (email, password) => {
@@ -57,9 +63,7 @@ export const signInUser = async (email, password) => {
     return await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user
-            console.log('user from signInUser: ', user)
-            console.log('auth: ', auth)
-            localStorage.setItem('session_json', user.uid)
+            console.log('user logged in: ', user)
         })
         .catch((error) => {
             const errorCode = error.code
@@ -70,8 +74,8 @@ export const signInUser = async (email, password) => {
 }
 
 
-export const signOutUser =  () => {
-    return  signOut(auth)
+export const signOutUser = () => {
+    return signOut(auth)
         .then(() => {
             console.log('Sign-out successful')
             console.log('auth: ', auth)
@@ -83,23 +87,20 @@ export const signOutUser =  () => {
 }
 
 
-export const userObserver =  () => {
-    onAuthStateChanged(auth, (user) => {
+export const userObserver = async () => {
+
+    await onAuthStateChanged(auth, (user) => {
             if (user) {
-                const uid = user.uid;
-                localStorage.setItem('session_json', uid)
-                // console.log('Current user id: ', uid)
-                // console.log('Current authenticate user ID: ', uid)
-                // console.log('Current authenticate user: ', user)
-            } else {
-                // console.log('User is signed out')
+                console.log('uid from userObserver: ', user.uid)
+                return user.uid;
             }
+            return null
         }
     )
 }
 
 
-export const updateProfileHandled = async (login) =>{
+export const updateProfileHandled = async (login) => {
     return await updateProfile(auth.currentUser, {
         displayName: `${login}`, photoURL: 'https://pickaface.net/gallery/avatar/unr_random_160817_0304_2mvqp69.png'
     }).then(() => {
@@ -108,5 +109,3 @@ export const updateProfileHandled = async (login) =>{
         console.log('An error occurred')
     });
 }
-
-

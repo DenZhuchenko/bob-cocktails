@@ -3,7 +3,7 @@ import {NavLink, useParams} from "react-router-dom";
 import {Box, Button, IconButton, Image, SimpleGrid} from "@chakra-ui/react";
 import {useDispatch, useSelector} from "react-redux";
 import {getCocktailList, fillUpBasket} from '../../../store/goodsSelectionSlice/index'
-import {CheckCircleIcon, SmallCloseIcon} from '@chakra-ui/icons'
+import {CheckCircleIcon} from '@chakra-ui/icons'
 
 
 const GoodsSelection = () => {

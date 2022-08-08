@@ -1,15 +1,26 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Box, Button, Flex, Heading, Text} from "@chakra-ui/react";
 import {NavLink} from "react-router-dom";
 import {signOutUser, userObserver} from "../../api/firebase";
 import {useDispatch, useSelector} from "react-redux";
-import {basketAfterReload, clearAllBasket} from "../../store/goodsSelectionSlice";
+import {basketAfterReload, clearAllBasket, currentUserHandler} from "../../store/goodsSelectionSlice";
+
+import {getAuth,} from 'firebase/auth'
+import authReducer from "../../store/authSlice";
+
 
 const Header = () => {
 
 
+    const auth = getAuth()
 
-    const basketData = useSelector(state => state.cocktailList.basket)
+
+    const [currentUser, setCurrentUser] = useState(null);
+    const [pending, setPending] = useState(true);
+
+    const user = useSelector(state => state.cocktailList.currentUser)
+    const loginInfo = useSelector(state => state.cocktailList.login)
+     const basketData = useSelector(state => state.cocktailList.basket)
 
 
 
@@ -18,13 +29,20 @@ const Header = () => {
         : null
     const dispatch = useDispatch()
 
+
     const clearBasket = () => {
         dispatch(clearAllBasket())
     }
 
 
     useEffect(() => {
-        userObserver()
+        auth.onAuthStateChanged((user) => {
+            setCurrentUser(user)
+            dispatch(currentUserHandler(user))
+            setPending(false)
+        });
+
+
         dispatch(basketAfterReload(basketBeforeInitialize))
     }, [])
 
@@ -37,6 +55,8 @@ const Header = () => {
             wrap="wrap"
             bg="orange.300"
         >
+
+
             <Flex>
                 <Heading pl={'6rem'} as="h1" size="lg" letterSpacing={"-.1rem"}>
                     <NavLink to={'/Light%20rum'}>
@@ -45,14 +65,7 @@ const Header = () => {
                     </NavLink>
                 </Heading>
             </Flex>
-            <Button
-                bg="transparent"
-                border="2px"
-                color='black'
-                onClick={signOutUser}
-            >
-                Logout
-            </Button>
+
 
             <Box>
                 <Button
@@ -82,7 +95,7 @@ const Header = () => {
                         bg='transparent'
                         border='2px'
                     >
-                        Basket   {basketData.length? basketData.length: null}
+                        Basket {basketData.length ? basketData.length : null}
                     </Button>
                 </NavLink>
                 <Button
@@ -91,9 +104,8 @@ const Header = () => {
                     Reset Basket
                 </Button>
                 <Button>
-                    <NavLink to={'payment'} >Payment</NavLink>
+                    <NavLink to={'payment'}>Payment</NavLink>
                 </Button>
-
 
 
             </Box>

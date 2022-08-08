@@ -1,6 +1,10 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {cocktailAPI} from "../../api/cocktailAPI";
 import {setIngredientsAndMeasures} from "../../helpers";
+import {signOutUser, } from "../../api/firebase";
+
+
+
 
 
 export const getCocktailList = createAsyncThunk(
@@ -18,6 +22,19 @@ export const getCocktailItem = createAsyncThunk(
         const response = await cocktailAPI.getCocktailById(id)
         const ingredients = response.data.drinks[0]
         return setIngredientsAndMeasures(ingredients)
+    }
+)
+
+
+
+
+
+export const logoutUser = createAsyncThunk(
+    'cocktails/logoutUser',
+    async () => {
+        const response = await signOutUser()
+        console.log('logged out')
+        return response
     }
 )
 
@@ -44,10 +61,19 @@ const goodsSelectionSlice = createSlice({
             auth: false,
             status: null,
             error: null,
+
+            currentUser: null,
+            login: false
         },
 
 
         reducers: {
+            currentUserHandler(state, action){
+                const payload = action.payload
+                console.log('Expected userID: ', payload.uid)
+                state.currentUser = payload.uid
+            },
+
             basketAfterReload(state, action) {
                 const payload = action.payload
                 action.payload
@@ -57,12 +83,7 @@ const goodsSelectionSlice = createSlice({
 
             fillUpBasket(state, action) {
                 const payload = action.payload
-                console.log('payload from Slice :', payload)
-                console.log('state from fillUpBasket before filter: ', state.basket)
-
                 const exist = state.basket.find(product => product.id === payload.id)
-                exist ? console.log('already exist') : console.log('new product')
-
                 if (exist) {
                     state.basket.map(el => el.id === payload.id
                         ? el.count = el.count + 1
@@ -87,12 +108,11 @@ const goodsSelectionSlice = createSlice({
             },
 
 
-
             removeBasketItem(state, action) {
                 const payload = action.payload
                 console.log('state in removeBasketItem: ', state)
                 const exist = state.basket.find(product => product.id === payload)
-                if (exist){
+                if (exist) {
                     state.basket = state.basket.filter(product => product.id !== payload)
                 } else return state.basket
 
@@ -143,6 +163,7 @@ const goodsSelectionSlice = createSlice({
             })
 
 
+
             builder.addCase(getCocktailItem.pending, (state, action) => {
                 state.status = 'pending'
             })
@@ -152,6 +173,21 @@ const goodsSelectionSlice = createSlice({
             builder.addCase(getCocktailItem.rejected, (state, action) => {
                 state.status = 'rejected'
             })
+
+
+
+
+            builder.addCase(logoutUser.pending, (state) => {
+                state.status = 'pending'
+            })
+            builder.addCase(logoutUser.fulfilled, (state) => {
+                state.currentUser = null
+                state.login = false
+            })
+            builder.addCase(logoutUser.rejected, (state) => {
+                state.status = 'rejected'
+            })
+
 
         }
     }
@@ -163,8 +199,8 @@ export const {
     basketAfterReload,
     decrementProductInBasket,
     incrementProductInBasket,
-    sumBasketPrice,
-    removeBasketItem
+    removeBasketItem,
+    currentUserHandler
 } = goodsSelectionSlice.actions
 
 export default goodsSelectionSlice.reducer

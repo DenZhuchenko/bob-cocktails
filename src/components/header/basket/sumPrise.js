@@ -1,6 +1,9 @@
 import {Box, Button} from "@chakra-ui/react";
+import {NavLink} from "react-router-dom";
 
 const SumPrise = (props) => {
+
+
     const {items} = props
     if (items) {
         let sumArr = items.map(el =>
@@ -13,11 +16,14 @@ const SumPrise = (props) => {
         >
             Total:
             {sumArr.reduce((sum, elem) => sum + elem, 0)}$
-            <Button
-                ml={'2rem'}
-                bg={'green.100'}
-            >Buy now
-            </Button>
+            <NavLink to={'/payment'}>
+                <Button
+                    ml={'2rem'}
+                    bg={'green.100'}
+                >Buy now
+                </Button>
+            </NavLink>
+
         </Box>
     } else return <div>Error</div>
 }
