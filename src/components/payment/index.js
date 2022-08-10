@@ -2,12 +2,15 @@ import React from 'react'
 import {Box, Button, Flex, FormControl, Input, VStack} from "@chakra-ui/react";
 import {Form, Formik} from "formik";
 import * as Yup from 'yup'
+import {useDispatch, useSelector} from "react-redux";
+import {clearAllBasket} from "../../store/basketSlice";
 
 
 const Payment = () => {
-
-    const currentYear = new Date().getFullYear()
-    const maxLength = 14
+    const dispatch = useDispatch()
+    const order = useSelector(state => state.basket.basket)
+    const totalSum = useSelector(state => state.basket.sumPrice)
+    const client = useSelector(state => state.auth.currentUser)
 
 
     const invalidChars = [
@@ -20,7 +23,7 @@ const Payment = () => {
     document.addEventListener('keypress', function (e) {
         const cardInputValue = document.getElementById('cardNumber')
         if (cardInputValue.value.length >= 15) {
-                cardInputValue.value = cardInputValue.value.slice(0, 15)
+            cardInputValue.value = cardInputValue.value.slice(0, 15)
         }
         if (invalidChars.includes(e.key)) {
             e.preventDefault();
@@ -105,7 +108,15 @@ const Payment = () => {
                     cvv: '',
                 }}
                         onSubmit={async (values, {resetForm}) => {
-                            console.log(values)
+                            // post this info into googleFirebase
+                            console.log('Client ID: ', client ? client.uid : null)
+                            console.log('Client email: ', client ? client.email : null)
+                            console.log('Payment Info: ', values)
+                            console.log('Order: ', order)
+                            console.log('totalSum: ', totalSum)
+                            resetForm('')
+                            dispatch(clearAllBasket())
+
                         }
                         }
                         validationSchema={validationSchema}

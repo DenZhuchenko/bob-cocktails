@@ -1,33 +1,27 @@
 import React, {useEffect, useState} from 'react'
 import {Box, Button, Flex, Heading, Text} from "@chakra-ui/react";
 import {NavLink} from "react-router-dom";
-import {signOutUser, userObserver} from "../../api/firebase";
+import {signOutUser} from "../../api/firebase";
 import {useDispatch, useSelector} from "react-redux";
-import {basketAfterReload, clearAllBasket, currentUserHandler} from "../../store/goodsSelectionSlice";
+import {basketAfterReload, clearAllBasket} from "../../store/basketSlice";
+import {setCurrentUser} from "../../store/authSlice";
 
 import {getAuth,} from 'firebase/auth'
-import authReducer from "../../store/authSlice";
 
 
 const Header = () => {
 
-
     const auth = getAuth()
 
-
-    const [currentUser, setCurrentUser] = useState(null);
-    const [pending, setPending] = useState(true);
-
-    const user = useSelector(state => state.cocktailList.currentUser)
-    const loginInfo = useSelector(state => state.cocktailList.login)
-     const basketData = useSelector(state => state.cocktailList.basket)
+    const [user, setUser] = useState(null)
+    const basketData = useSelector(state => state.basket.basket)
+    const userData = useSelector(state => state.auth.currentUser)
 
 
-
+    const dispatch = useDispatch()
     const basketBeforeInitialize = JSON.parse(localStorage.getItem('order'))
         ? JSON.parse(localStorage.getItem('order'))
         : null
-    const dispatch = useDispatch()
 
 
     const clearBasket = () => {
@@ -37,14 +31,12 @@ const Header = () => {
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
-            setCurrentUser(user)
-            dispatch(currentUserHandler(user))
-            setPending(false)
+            setUser(user)
         });
-
-
+        dispatch(setCurrentUser(user))
         dispatch(basketAfterReload(basketBeforeInitialize))
-    }, [])
+    }, [user])
+
 
 
     return (
@@ -68,24 +60,30 @@ const Header = () => {
 
 
             <Box>
-                <Button
-                    bg="transparent"
-                    border="2px"
-                    color='black'
-                    onClick={signOutUser}
-                >
-                    Logout
-                </Button>
-                <NavLink to={'/login'}>
-                    <Button
-                        bg="transparent"
-                        border="2px"
-                        color='black'
-                    >
-                        Login
-                    </Button>
-                </NavLink>
+                {
+                    userData
+                        ? <Button
+                            bg="transparent"
+                            border="2px"
+                            color='black'
+                            onClick={signOutUser}
+                        >
+                            Logout
+                        </Button>
+                        :                <NavLink to={'/login'}>
+                            <Button
+                                bg="transparent"
+                                border="2px"
+                                color='black'
+                            >
+                                Login
+                            </Button>
+                        </NavLink>
+                }
 
+                {
+                    userData ? userData.email : null
+                }
 
                 <NavLink to={'/basket'}>
                     <Button
@@ -103,9 +101,9 @@ const Header = () => {
                 >
                     Reset Basket
                 </Button>
-                <Button>
-                    <NavLink to={'payment'}>Payment</NavLink>
-                </Button>
+                {/*<Button>*/}
+                {/*    <NavLink to={'payment'}>Payment</NavLink>*/}
+                {/*</Button>*/}
 
 
             </Box>

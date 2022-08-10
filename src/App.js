@@ -20,7 +20,6 @@ const App = () => {
 
             <Routes>
                 <Route path={'/'} element={<AppLayout />}>
-
                     <Route path={'/'} element={<MainLayout />}>
                         <Route path={':ingredientName/*'} element={<GoodsSelection />}/>
                         <Route path={`:ingredientName/:id`} element={<Cocktail/>}/>

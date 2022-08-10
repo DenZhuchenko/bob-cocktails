@@ -1,31 +1,74 @@
 import {Box, Button} from "@chakra-ui/react";
 import {NavLink} from "react-router-dom";
+import {useSelector} from "react-redux";
 
-const SumPrise = (props) => {
+const SumPrice = () => {
+
+    const sumPrice = useSelector(state => state.basket.sumPrice)
 
 
-    const {items} = props
-    if (items) {
-        let sumArr = items.map(el =>
-            el.count * (el.id.substring(0, 2) - 7)
-        )
-        return <Box
-            border={"2px solid green"}
-            borderRadius={'5px'}
-            p={'25px'}
-        >
-            Total:
-            {sumArr.reduce((sum, elem) => sum + elem, 0)}$
-            <NavLink to={'/payment'}>
-                <Button
-                    ml={'2rem'}
-                    bg={'green.100'}
-                >Buy now
-                </Button>
-            </NavLink>
+    return (
+        <>
+            {sumPrice ?
+                <Box
+                    border={"2px solid green"}
+                    borderRadius={'5px'}
+                    p={'25px'}
+                >
+                    Total:
+                    {sumPrice} $
 
-        </Box>
-    } else return <div>Error</div>
+                    <NavLink to={'/payment'}>
+                        <Button
+                            ml={'2rem'}
+                            bg={'green.100'}
+                        >Buy now
+                        </Button>
+                    </NavLink>
+
+                </Box>
+                : null
+            }
+        </>
+    )
 }
 
-export default SumPrise
+export default SumPrice
+
+//
+// import {Box, Button} from "@chakra-ui/react";
+// import {NavLink} from "react-router-dom";
+// import {useSelector} from "react-redux";
+//
+// const SumPrise = (props) => {
+//
+//
+//     const sumPrice = useSelector(state => state.basket.sumPrice)
+//
+//
+//     const {items} = props
+//     if (items) {
+//         let sumArr = items.map(el =>
+//             el.count * (el.id.substring(0, 2) - 7)
+//         )
+//         return <Box
+//             border={"2px solid green"}
+//             borderRadius={'5px'}
+//             p={'25px'}
+//         >
+//             Total:
+//             {sumArr.reduce((sum, elem) => sum + elem, 0)}  $
+//
+//             <NavLink to={'/payment'}>
+//                 <Button
+//                     ml={'2rem'}
+//                     bg={'green.100'}
+//                 >Buy now
+//                 </Button>
+//             </NavLink>
+//
+//         </Box>
+//     } else return <div>Error</div>
+// }
+//
+// export default SumPrise

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {
     Box,
     Button,
@@ -15,9 +15,9 @@ import {
 import {
     decrementProductInBasket,
     incrementProductInBasket,
-    removeBasketItem
-} from "../../../../store/goodsSelectionSlice";
-import {useDispatch} from "react-redux";
+    removeBasketItem, sumBasketPrice
+} from "../../../../store/basketSlice";
+import {useDispatch, useSelector} from "react-redux";
 import {SmallCloseIcon} from '@chakra-ui/icons'
 
 
@@ -26,22 +26,32 @@ const BasketItem = (props) => {
     const dispatch = useDispatch()
 
 
+
+    useEffect(() => {
+
+        dispatch(sumBasketPrice())
+
+    }, [])
+
+
     const increment = (count, id) => {
         dispatch(incrementProductInBasket({count, id}))
+        dispatch(sumBasketPrice())
     }
     const decrement = (count, id) => {
         dispatch(decrementProductInBasket({count, id}))
+        dispatch(sumBasketPrice())
     }
-
     const remove = (id) => {
         dispatch(removeBasketItem(id))
+        dispatch(sumBasketPrice())
     }
 
-    const sumPricePerItemHandler = (count, pricePerItem) => {
 
 
-        const price = pricePerItem.substring(0, 2) - 7 //Getting at least smt, what we can use as price
-        const sum = count * (price)
+
+    const sumPricePerItemHandler = (count, price) => {
+        const sum = count * price
         const correct = sum % count === 0 && sum > 0
         if (correct) {
             return sum + `$`
@@ -140,8 +150,9 @@ const BasketItem = (props) => {
 
                         <Text>
                             {
-                                sumPricePerItemHandler(item.count, item.id)
-                            }</Text>
+                                sumPricePerItemHandler(item.count, item.price)
+                            }
+                        </Text>
 
 
                     </div>

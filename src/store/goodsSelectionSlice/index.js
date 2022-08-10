@@ -1,16 +1,14 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {cocktailAPI} from "../../api/cocktailAPI";
 import {setIngredientsAndMeasures} from "../../helpers";
-import {signOutUser, } from "../../api/firebase";
-
-
-
+import {signOutUser} from "../../api/firebase";
 
 
 export const getCocktailList = createAsyncThunk(
     'cocktails/getCocktailList',
     async (ingredientName) => {
         const response = await cocktailAPI.getCocktailBeIngredientName(ingredientName)
+
         return response.data.drinks
     }
 )
@@ -56,96 +54,19 @@ const goodsSelectionSlice = createSlice({
                     ingredients: {}
                 }
             ],
-            basket: [],
-            sumPrice: null,
-            auth: false,
+
+
+
             status: null,
             error: null,
-
-            currentUser: null,
-            login: false
         },
 
 
         reducers: {
-            currentUserHandler(state, action){
-                const payload = action.payload
-                console.log('Expected userID: ', payload.uid)
-                state.currentUser = payload.uid
-            },
-
-            basketAfterReload(state, action) {
-                const payload = action.payload
-                action.payload
-                    ? state.basket = payload
-                    : state.basket = state.basket
-            },
-
-            fillUpBasket(state, action) {
-                const payload = action.payload
-                const exist = state.basket.find(product => product.id === payload.id)
-                if (exist) {
-                    state.basket.map(el => el.id === payload.id
-                        ? el.count = el.count + 1
-                        : el.count)
-                } else {
-                    state.basket.push({
-                        name: payload.name,
-                        id: payload.id,
-                        image: payload.img,
-                        count: 1
-                    })
-                }
-
-                localStorage.setItem('order', JSON.stringify(state.basket))
-
-            },
-
-            clearAllBasket(state) {
-                console.log('We are here after Click Clear')
-                localStorage.removeItem('order')
-                state.basket = []
-            },
-
-
-            removeBasketItem(state, action) {
-                const payload = action.payload
-                console.log('state in removeBasketItem: ', state)
-                const exist = state.basket.find(product => product.id === payload)
-                if (exist) {
-                    state.basket = state.basket.filter(product => product.id !== payload)
-                } else return state.basket
-
-            },
-
-
-            incrementProductInBasket(state, action) {
-
-                const payload = action.payload
-                const exist = state.basket.find(product => product.id === payload.id)
-                if (exist) {
-                    state.basket.map(el => el.id === payload.id
-                        ? el.count = el.count + 1
-                        : el.count)
-                }
-                localStorage.setItem('order', JSON.stringify(state.basket))
-            },
-
-            decrementProductInBasket(state, action) {
-                const payload = action.payload
-                const exist = state.basket.find(product => product.id === payload.id)
-                if (exist) {
-                    state.basket.map(el => el.id === payload.id
-                        ? el.count = el.count - 1
-                        : el.count)
-                }
-                localStorage.setItem('order', JSON.stringify(state.basket))
-
-            },
-            sumBasketPrice(state, action) {
-                const payload = action.payload
-                state.sumPrice = state.sumPrice + payload
+            clearStatus(state){
+                state.status = null
             }
+
         },
 
 
@@ -169,6 +90,7 @@ const goodsSelectionSlice = createSlice({
             })
             builder.addCase(getCocktailItem.fulfilled, (state, action) => {
                 state.cocktailItem = action.payload
+                state.status = 'fulfilled'
             })
             builder.addCase(getCocktailItem.rejected, (state, action) => {
                 state.status = 'rejected'
@@ -183,6 +105,7 @@ const goodsSelectionSlice = createSlice({
             builder.addCase(logoutUser.fulfilled, (state) => {
                 state.currentUser = null
                 state.login = false
+                state.status = 'fulfilled'
             })
             builder.addCase(logoutUser.rejected, (state) => {
                 state.status = 'rejected'
@@ -194,13 +117,7 @@ const goodsSelectionSlice = createSlice({
 )
 
 export const {
-    clearAllBasket,
-    fillUpBasket,
-    basketAfterReload,
-    decrementProductInBasket,
-    incrementProductInBasket,
-    removeBasketItem,
-    currentUserHandler
+    clearStatus
 } = goodsSelectionSlice.actions
 
 export default goodsSelectionSlice.reducer

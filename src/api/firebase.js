@@ -40,9 +40,6 @@ export const storage = getStorage(firebaseApp);
 export const auth = getAuth()
 
 
-console.log('auth from firebase: ', auth ? auth.currentUser : 'sasat')
-
-
 export const createUser = async (email, password) => {
     return await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
