@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {NavLink, useParams} from "react-router-dom";
-import {Box, Button, IconButton, Image, SimpleGrid} from "@chakra-ui/react";
+import {Box, Button, Heading, IconButton, Image, SimpleGrid, useColorModeValue} from "@chakra-ui/react";
 import {useDispatch, useSelector} from "react-redux";
 import {clearStatus, getCocktailList} from '../../../store/goodsSelectionSlice/index'
-
 import {fillUpBasket} from '../../../store/basketSlice/index'
 
 import {CheckCircleIcon} from '@chakra-ui/icons'
@@ -71,7 +70,9 @@ const GoodsSelection = () => {
         return cocktailList.map((el, key) =>
             <Box key={key} m={'25'} maxW='sm' borderColor={'black'} borderWidth='1px' borderRadius='lg'
                  overflow='hidden'>
-                <NavLink onClick={clearLoadingStatus} to={`${el.idDrink}`}>
+                <NavLink
+                    onClick={clearLoadingStatus}
+                    to={`${el.idDrink}`}>
                     <Image src={el.strDrinkThumb} alt='imageAlt'/>
                 </NavLink>
 
@@ -106,9 +107,23 @@ const GoodsSelection = () => {
 
 
     return (
-        <SimpleGrid templateColumns='repeat(4, 1fr)' gap={6}>
-            <ItemCardCreator/>
-        </SimpleGrid>
+        <>
+            <Heading
+                textAlign={'center'}
+                color={useColorModeValue('gray.600', 'gray.300')}
+                bg={useColorModeValue('gray.100', 'gray.800')}
+                mr={'10px'}
+            >{ingredientName}</Heading>
+            <SimpleGrid
+                templateColumns='repeat(4, 1fr)'
+                gap={6}
+                bg={useColorModeValue('gray.100', 'gray.800')}
+                color={useColorModeValue('gray.600', 'gray.100')}
+            >
+                <ItemCardCreator/>
+            </SimpleGrid>
+        </>
+
     )
 }
 

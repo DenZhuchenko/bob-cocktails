@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../../main/navBar";
-import {Grid, GridItem} from "@chakra-ui/react";
+import {Grid, GridItem, useColorModeValue} from "@chakra-ui/react";
 import {Outlet} from "react-router";
 
 const MainLayout = () =>{
@@ -11,16 +11,17 @@ const MainLayout = () =>{
               gridTemplateRows={'45px 1fr 30px'}
               gridTemplateColumns={'350px 1fr'}
               gap='1'
-              color='blackAlpha.700'
+              bg={useColorModeValue('gray.100', 'gray.800')}
+              color={useColorModeValue('gray.600', 'gray.100')}
               fontWeight='bold'
               minH={'90vh'}
         >
             <GridItem
                     alignItems={'center'}
-                    bg='orange.300'
                     area='nav'
-                    minH='90vh'
+                    h='100vh'
                     overflow='auto'
+
             >
                 <NavBar/>
             </GridItem>
@@ -29,8 +30,10 @@ const MainLayout = () =>{
                 pl='2'
                 bg='orange.100'
                 area={'main'}
-                minH='90vh'
+                minH='100vh'
                 overflow='auto'
+                bg={useColorModeValue('gray.100', 'gray.800')}
+                color={useColorModeValue('gray.600', 'gray.100')}
             >
 
                 <Outlet/>

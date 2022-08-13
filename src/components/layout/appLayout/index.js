@@ -4,49 +4,41 @@ import Footer from "../../footer";
 import {Grid, GridItem} from "@chakra-ui/react";
 import {Outlet} from 'react-router'
 
-const AppLayout = (props) => {
-    const {login} = props
-
-    // console.log('login from appLayout: ', login )
-
+const AppLayout = () => {
     return (
 
         <>
             <Grid templateAreas={`
                   "header header"
-                  "main main"
-                  "footer footer"`}
-                  gridTemplateRows={'45px 1fr 30px'}
-                  gridTemplateColumns={'350px 1fr'}
+                  "main main"`}
+                  gridTemplateRows={'4rem 1fr 30px'}
+                  gridTemplateColumns={'15rem 1fr'}
                   color='blackAlpha.700'
                   fontWeight='bold'
             >
                 <GridItem
-                    // pl='25'
-                    // bg='orange.300'
                     area={'header'}
-                    // justifyContent={'space-evenly'}
                 >
-                    <Header login={login}/>
+                    <Header/>
                 </GridItem>
 
                 <GridItem
                     bg='orange.100'
                     area={'main'}
-                    maxHeight='90vh'
+                    h='100vh'
                     overflow='auto'
                 >
 
                     <Outlet/>
-
+                {/**/}
                 </GridItem>
 
-                <GridItem
-                    pl='2'
-                    bg='orange.300'
-                    area={'footer'}>
-                    <Footer/>
-                </GridItem>
+                {/*<GridItem*/}
+                {/*    pl='2'*/}
+                {/*    bg='orange.300'*/}
+                {/*    area={'footer'}>*/}
+                {/*    /!*<Footer/>*!/*/}
+                {/*</GridItem>*/}
             </Grid>
         </>
     )

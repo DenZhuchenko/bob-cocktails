@@ -6,9 +6,9 @@ import {signOutUser} from "../../api/firebase";
 
 export const getCocktailList = createAsyncThunk(
     'cocktails/getCocktailList',
-    async (ingredientName) => {
+    async (ingredientName, {dispatch}) => {
         const response = await cocktailAPI.getCocktailBeIngredientName(ingredientName)
-
+        // dispatch(clearStatus())
         return response.data.drinks
     }
 )
@@ -18,13 +18,11 @@ export const getCocktailItem = createAsyncThunk(
     'cocktails/getCocktailItem',
     async (id, {dispatch}) => {
         const response = await cocktailAPI.getCocktailById(id)
+        console.log('response from getCocktailItem: ', response)
         const ingredients = response.data.drinks[0]
         return setIngredientsAndMeasures(ingredients)
     }
 )
-
-
-
 
 
 export const logoutUser = createAsyncThunk(
@@ -56,14 +54,13 @@ const goodsSelectionSlice = createSlice({
             ],
 
 
-
             status: null,
             error: null,
         },
 
 
         reducers: {
-            clearStatus(state){
+            clearStatus(state) {
                 state.status = null
             }
 
@@ -84,8 +81,8 @@ const goodsSelectionSlice = createSlice({
             })
 
 
-
             builder.addCase(getCocktailItem.pending, (state, action) => {
+                console.log('action payload from item: ', action)
                 state.status = 'pending'
             })
             builder.addCase(getCocktailItem.fulfilled, (state, action) => {
@@ -95,8 +92,6 @@ const goodsSelectionSlice = createSlice({
             builder.addCase(getCocktailItem.rejected, (state, action) => {
                 state.status = 'rejected'
             })
-
-
 
 
             builder.addCase(logoutUser.pending, (state) => {

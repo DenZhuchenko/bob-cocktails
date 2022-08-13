@@ -9,7 +9,6 @@ import SumPrice from "./sumPrise";
 const Basket = () => {
 
     const basketItems = useSelector(state => state.basket.basket)
-    const sumPrice = useSelector(state => state.basket.sumPrice)
 
 
     return (
@@ -18,8 +17,8 @@ const Basket = () => {
               justify='center'
         >
             <Box
-                h='80vh'
-                w='70vh'
+                h='80rem'
+                w='40rem'
                 bg='white'
                 rounded='md'
                 overflow={'auto'}

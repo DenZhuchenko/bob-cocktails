@@ -75,7 +75,7 @@ const BasketItem = (props) => {
                      justifyContent={'space-between'}
                      p={'1em'}
                      m={'1em'}
-                     w={'55vh'}
+                     w={'30rem'}
                 >
 
                     <Box justifyContent={'space-between'}
