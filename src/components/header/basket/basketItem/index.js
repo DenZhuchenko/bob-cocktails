@@ -88,7 +88,7 @@ const BasketItem = (props) => {
                     </Box>
 
 
-                    <div>
+                    <Box>
                         {item.count > 1
                             ? <Button
                                 onClick={() => {
@@ -155,7 +155,7 @@ const BasketItem = (props) => {
                         </Text>
 
 
-                    </div>
+                    </Box>
                     {/*<Button onClick={() => dispatch(removeBasketItem(item.id))}>Remove from*/}
                     {/*    basket</Button>*/}
 

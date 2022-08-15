@@ -1,43 +1,25 @@
-import React from 'react'
-import {NavLink} from "react-router-dom";
-import {Button, IconButton} from "@chakra-ui/react";
-import {CheckCircleIcon} from "@chakra-ui/icons";
-import {fillUpBasket} from "../../store/goodsSelectionSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {fillUpBasket} from "../../store/basketSlice";
 
-const CardButton = (props) => {
-    const {info} = props
-    const {idDrink, strDrink, strDrinkThumb } = info
-
+const AddToBasket = (props) => {
+    const {idDrink, strDrink, strDrinkThumb} = props
+    const dispatch = useDispatch()
+    const basket = useSelector(state => state.basket.basket)
+    console.log('basket: ', )
     const existInBasket = basket.find(product => product.id === idDrink)
+    console.log('We are here, props: ', props)
 
-    return (
-        <> {
-            existInBasket
-                ? <NavLink to={'/basket'}>
-                    <IconButton
-                        p={'1rem'}
-                        bg={'green.200'}
-                        aria-label="More server options"
-                        variant="solid"
-                        w="fit-content"
-                        icon={<CheckCircleIcon/>}
-                    />
-                </NavLink>
-                : <Button onClick={() => {
+    if(existInBasket){
+        dispatch(fillUpBasket(
+            {
+                name: strDrink,
+                id: idDrink,
+                img: strDrinkThumb,
+                count: 1
+            }
+        ))
+    }
 
-                    dispatch(fillUpBasket(
-                        {
-                            name: strDrink,
-                            id: idDrink,
-                            img: strDrinkThumb,
-                            count: 1
-                        }
-                    ))
-                }}>
-                    Add to Basket</Button>
-        }
-        </>
-    )
 }
 
-export default CardButton
+export default AddToBasket

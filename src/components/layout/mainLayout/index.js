@@ -8,19 +8,32 @@ const MainLayout = () =>{
     return(
         <Grid templateAreas={`
         "nav main"`}
-              gridTemplateRows={'45px 1fr 30px'}
+              // gridTemplateRows={'45px 1fr 30px'}
               gridTemplateColumns={'350px 1fr'}
               gap='1'
-              bg={useColorModeValue('gray.100', 'gray.800')}
+              bg={useColorModeValue('orange.200', 'gray.800')}
               color={useColorModeValue('gray.600', 'gray.100')}
               fontWeight='bold'
-              minH={'90vh'}
+              h={'93vh'}
+
         >
             <GridItem
                     alignItems={'center'}
                     area='nav'
-                    h='100vh'
                     overflow='auto'
+
+                    css={{
+                        '&::-webkit-scrollbar': {
+                            width: '4px',
+                        },
+                        '&::-webkit-scrollbar-track': {
+                            width: '6px',
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            background: 'grey',
+                            borderRadius: '24px',
+                        },
+                    }}
 
             >
                 <NavBar/>
@@ -28,12 +41,23 @@ const MainLayout = () =>{
 
             <GridItem
                 pl='2'
-                bg='orange.100'
                 area={'main'}
-                minH='100vh'
                 overflow='auto'
-                bg={useColorModeValue('gray.100', 'gray.800')}
-                color={useColorModeValue('gray.600', 'gray.100')}
+
+                bg={useColorModeValue('orange.200', 'gray.800')}
+                color={useColorModeValue('gray.700', 'gray.100')}
+                css={{
+                    '&::-webkit-scrollbar': {
+                        width: '4px',
+                    },
+                    '&::-webkit-scrollbar-track': {
+                        width: '6px',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                        background: 'grey',
+                        borderRadius: '24px',
+                    },
+                }}
             >
 
                 <Outlet/>

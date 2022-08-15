@@ -1,46 +1,44 @@
 import React from 'react'
 import Header from "../../header";
 import Footer from "../../footer";
-import {Grid, GridItem} from "@chakra-ui/react";
+import {Box, Grid, GridItem, useColorModeValue} from "@chakra-ui/react";
 import {Outlet} from 'react-router'
 
 const AppLayout = () => {
     return (
 
-        <>
+        <Box>
             <Grid templateAreas={`
                   "header header"
                   "main main"`}
-                  gridTemplateRows={'4rem 1fr 30px'}
-                  gridTemplateColumns={'15rem 1fr'}
+                  // gridTemplateRows={'4rem 1fr 30px'}
+                  // gridTemplateColumns={'15rem 1fr'}
                   color='blackAlpha.700'
+                  bg={useColorModeValue('orange.200', 'gray.800')}
                   fontWeight='bold'
             >
                 <GridItem
+                    h={'7vh'}
                     area={'header'}
                 >
                     <Header/>
                 </GridItem>
 
                 <GridItem
-                    bg='orange.100'
+                    bg={useColorModeValue('orange.200', 'gray.800')}
                     area={'main'}
-                    h='100vh'
                     overflow='auto'
                 >
 
                     <Outlet/>
-                {/**/}
                 </GridItem>
 
                 {/*<GridItem*/}
-                {/*    pl='2'*/}
                 {/*    bg='orange.300'*/}
                 {/*    area={'footer'}>*/}
-                {/*    /!*<Footer/>*!/*/}
                 {/*</GridItem>*/}
             </Grid>
-        </>
+        </Box>
     )
 }
 

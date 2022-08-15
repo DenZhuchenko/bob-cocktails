@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {NavLink, useParams} from "react-router-dom";
 import {Box, Button, Heading, IconButton, Image, SimpleGrid, useColorModeValue} from "@chakra-ui/react";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,12 +16,14 @@ const GoodsSelection = () => {
     const {ingredientName} = useParams()
 
 
+
+
     useEffect(() => {
         dispatch(getCocktailList(ingredientName))
     }, [ingredientName])
 
 
-    const clearLoadingStatus = () =>{
+    const clearLoadingStatus = () => {
         dispatch(clearStatus())
     }
 
@@ -37,7 +39,8 @@ const GoodsSelection = () => {
                     ? <NavLink to={'/basket'}>
                         <IconButton
                             p={'1rem'}
-                            bg={'green.200'}
+                            bg={'green.400'}
+                            color={'grey.300'}
                             aria-label="More server options"
                             variant="solid"
                             w="fit-content"
@@ -68,17 +71,22 @@ const GoodsSelection = () => {
 
     const ItemCardCreator = () => {
         return cocktailList.map((el, key) =>
-            <Box key={key} m={'25'} maxW='sm' borderColor={'black'} borderWidth='1px' borderRadius='lg'
-                 overflow='hidden'>
+            <Box key={key}
+                 m={'25'}
+                 maxW='sm'
+                 borderColor={'black'}
+                 borderWidth='1px'
+                 borderRadius='lg'
+                 overflow='hidden'
+            >
                 <NavLink
                     onClick={clearLoadingStatus}
                     to={`${el.idDrink}`}>
                     <Image src={el.strDrinkThumb} alt='imageAlt'/>
                 </NavLink>
 
-
                 <Box
-                    mt='1'
+                    p='1rem 0 1rem 0'
                     fontWeight='bold'
                     as='h2'
                     lineHeight='tight'
@@ -107,24 +115,26 @@ const GoodsSelection = () => {
 
 
     return (
-        <>
+        <Box
+            color={useColorModeValue('gray.600', 'gray.100')}
+            bg={useColorModeValue('orange.200', 'gray.800')}
+            alignItems={'center'}
+        >
             <Heading
                 textAlign={'center'}
-                color={useColorModeValue('gray.600', 'gray.300')}
-                bg={useColorModeValue('gray.100', 'gray.800')}
-                mr={'10px'}
             >{ingredientName}</Heading>
             <SimpleGrid
-                templateColumns='repeat(4, 1fr)'
+                // templateColumns='repeat(4, 1fr)'
+                justifyItems={'center'}
+                minChildWidth='20rem'
                 gap={6}
-                bg={useColorModeValue('gray.100', 'gray.800')}
-                color={useColorModeValue('gray.600', 'gray.100')}
-            >
-                <ItemCardCreator/>
-            </SimpleGrid>
-        </>
 
-    )
+            >
+            <ItemCardCreator/>
+        </SimpleGrid>
+</Box>
+
+)
 }
 
 export default GoodsSelection
