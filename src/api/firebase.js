@@ -7,9 +7,7 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
     signOut,
-    updateProfile,
-    getAdditionalUserInfo,
-    Auth
+    updateProfile
 } from 'firebase/auth'
 //npm install -g firebase-tools//
 

@@ -37,9 +37,9 @@ export default function Header() {
         : null
 
 
-    const clearBasket = () => {
-        dispatch(clearAllBasket())
-    }
+    // const clearBasket = () => {
+    //     dispatch(clearAllBasket())
+    // }
 
 
     useEffect(() => {

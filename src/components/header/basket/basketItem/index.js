@@ -19,6 +19,7 @@ import {
 } from "../../../../store/basketSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {SmallCloseIcon} from '@chakra-ui/icons'
+import {NavLink} from "react-router-dom";
 
 
 const BasketItem = (props) => {
@@ -65,7 +66,7 @@ const BasketItem = (props) => {
 
     return (
         <Box>
-            {basketItems.map((item) =>
+            { basketItems.map((item) =>
 
                 <Box key={item.id + Math.random()}
                      display={'flex'}
@@ -82,8 +83,10 @@ const BasketItem = (props) => {
                          alignContent={'space-between'}
                     >
                         {item.name}
-                        <Img src={item.image} alt={`product + ${item.name}`} height={'100px'}
-                             width={'100px'}/>
+                        <NavLink to={`/cocktail/${item.id}`}>
+                            <Img src={item.image} alt={`product + ${item.name}`} height={'100px'}
+                                 width={'100px'}/>
+                        </NavLink>
 
                     </Box>
 
@@ -94,18 +97,20 @@ const BasketItem = (props) => {
                                 onClick={() => {
                                     decrement(item.count, item.id)
                                 }}
+                                mr={'5px'}
                             >
                                 -
                             </Button>
                             : <Button
+                                mr={'5px'}
                                 disabled='disable'
                             >
                                 -
                             </Button>
                         }
                         {item.count}
-
                         <Button
+                            ml={'5px'}
                             onClick={() => {
                                 increment(item.count, item.id)
                             }}

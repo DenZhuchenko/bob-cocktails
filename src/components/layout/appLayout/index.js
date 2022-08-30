@@ -33,10 +33,7 @@ const AppLayout = () => {
                     <Outlet/>
                 </GridItem>
 
-                {/*<GridItem*/}
-                {/*    bg='orange.300'*/}
-                {/*    area={'footer'}>*/}
-                {/*</GridItem>*/}
+
             </Grid>
         </Box>
     )

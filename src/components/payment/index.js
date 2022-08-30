@@ -1,16 +1,22 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Box, Button, Flex, FormControl, Input, useColorModeValue, VStack} from "@chakra-ui/react";
 import {Form, Formik} from "formik";
 import * as Yup from 'yup'
 import {useDispatch, useSelector} from "react-redux";
 import {clearAllBasket} from "../../store/basketSlice";
+import {useNavigate} from "react-router-dom";
 
 
 const Payment = () => {
     const dispatch = useDispatch()
     const order = useSelector(state => state.basket.basket)
     const totalSum = useSelector(state => state.basket.sumPrice)
+    // console.log('totalSum: ', totalSum)
+
     const client = useSelector(state => state.auth.currentUser)
+    const navigate = useNavigate()
+
+
 
 
     const invalidChars = [
@@ -18,20 +24,9 @@ const Payment = () => {
         "+",
         "e",
     ]
+
     const currentYear = new Date().getFullYear()
 
-
-    const emptySpace = (str, after) => {
-        if (!str) {
-            return false;
-        }
-        after = after || 4;
-        let v = str.replace(/[^\dA-Z]/g, ''),
-            reg = new RegExp(".{" + after + "}", "g");
-        return v.replace(reg, function (a) {
-            return a + ' ';
-        });
-    }
 
 
     function setInputFilter(textbox, inputFilter) {
@@ -53,58 +48,58 @@ const Payment = () => {
     }
 
 
-    setInputFilter(document.getElementById("cardNumber"), function (value) {
-         emptySpace(value, 4);
-        return /^\d*$/.test(value) && (value === "" || parseInt(value) < Math.pow(10, 16))
-    });
+    useEffect(() =>{
+
+        setInputFilter(document.getElementById("cardNumber"), function (value) {
+            return /^\d*$/.test(value) && (value === "" || parseInt(value) < Math.pow(10, 16))
+        });
+
+        setInputFilter(document.getElementById("dateM"), function (value) {
+
+            return /^\d*$/.test(value) && (value === "" || (parseInt(value) > 0 && parseInt(value) <= 12))
+        });
+
+        setInputFilter(document.getElementById("dateY"), function (value) {
+            return /^\d*$/.test(value) && (value === "" || (parseInt(value) > 0 && parseInt(value) <= currentYear + 10))
+        });
+
+        setInputFilter(document.getElementById("cvv"), function (value) {
+            return /^\d*$/.test(value) && (value === "" || (parseInt(value) > 0 && parseInt(value) < 1000))
+        });
+
+    }, [])
 
 
 
-
-
-    setInputFilter(document.getElementById("dateM"), function (value) {
-
-        return /^\d*$/.test(value) && (value === "" || (parseInt(value) > 0 && parseInt(value) <= 12))
-    });
-
-    setInputFilter(document.getElementById("dateY"), function (value) {
-        return /^\d*$/.test(value) && (value === "" || (parseInt(value) > 0 && parseInt(value) <= currentYear + 10))
-    });
-
-    setInputFilter(document.getElementById("cvv"), function (value) {
-        return /^\d*$/.test(value) && (value === "" || (parseInt(value) > 0 && parseInt(value) < 1000))
-    });
 
 
 
 
 
     const validationSchema = Yup.object().shape({
+
         number: Yup.string()
             .required('Required')
             .matches(/^[0-9]+$/, "Must be only digits")
-            .max(16, 'error'),
-
+            .max(16, 'Must contain 16 digits'),
 
         dateM: Yup.string()
             .required('Required')
             .matches(/^[0-9]+$/, "Must be only digits")
-            .max(2, 'err'),
-
+            .max(2, 'Must contain up to 2 digits'),
 
         dateY: Yup.string()
             .required('Required')
             .matches(/^[0-9]+$/, "Must be only digits")
-            .max(2, 'err'),
+            .max(4, 'Must contain 4 digits'),
 
         cvv: Yup.string()
             .required('Required')
             .matches(/^[0-9]+$/, "Must be only digits")
-            .max(3, 'err')
+            .max(3, 'CVV must contain 3 digits')
         ,
-
-
     })
+
 
 
     return (
@@ -137,6 +132,7 @@ const Payment = () => {
                             console.log('totalSum: ', totalSum)
                             resetForm('')
                             dispatch(clearAllBasket())
+                            navigate('/Light%20rum', {replace: true})
 
                         }
                         }

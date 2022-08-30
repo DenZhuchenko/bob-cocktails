@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Form, Formik} from "formik";
 import * as Yup from 'yup'
-import {Box, Button, Checkbox, Flex, FormControl, Input, VStack} from "@chakra-ui/react";
+import {Box, Button, Checkbox, Flex, FormControl, Input, useColorModeValue, VStack} from "@chakra-ui/react";
 import {signInUser} from "../../../api/firebase";
 import {NavLink, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
@@ -28,12 +28,20 @@ const Login = () => {
     })
 
     return (
-        <div>
-            {
-                client
-                    ? navigate("/Light%20rum", { replace: true })
-                    : <Flex bg="orange.100" align='center' justify='center' h='90vh'>
-                        <Box bg={'white'} p={25} rounded={'md'}>
+        <Box>
+             <Flex
+                        align='center'
+                        justify='center'
+                        h='93vh'
+                        bg={useColorModeValue('orange.200', 'gray.800')}
+                        color={useColorModeValue('gray.600', 'gray.800')}
+                    >
+                        <Box
+                            p={25}
+                            rounded={'md'}
+                            bg={useColorModeValue('white', 'gray.600')}
+                            color={useColorModeValue('gray.700', 'white')}
+                        >
 
                             <Formik initialValues={{
                                 email: '',
@@ -43,7 +51,7 @@ const Login = () => {
                                     onSubmit={ async (values, {resetForm}) => {
                                         await signInUser(values.email, values.password).then((res) =>{
                                             console.log('res from Login: ', res)
-                                            navigate('/', {replace: true})
+                                            navigate('/Light%20rum', {replace: true})
                                         })
                                         console.log('values: ', values)
 
@@ -65,9 +73,11 @@ const Login = () => {
                                       handleBlur,
 
                                   }) => (
-                                    <Form onSubmit={handleSubmit}>
+                                    <Form onSubmit={handleSubmit}
+                                    >
                                         <VStack spacing={10} alight={'flex-start'}>
-                                            <FormControl pb={15} >
+                                            <FormControl
+                                                pb={15} >
                                                 <label htmlFor={'email'}>Email</label>
                                                 <Input
                                                     type={'email'}
@@ -128,9 +138,9 @@ const Login = () => {
 
                         </Box>
                     </Flex>
-            }
 
-        </div>
+
+        </Box>
     )
 }
 

@@ -1,36 +1,38 @@
 import {
     Box,
-    chakra,
-    Container,
-    Stack,
-    Text,
-    Image,
-    Flex,
-    VStack,
     Button,
+    Container,
+    Flex,
     Heading,
+    IconButton,
+    Image,
     SimpleGrid,
+    Stack,
     StackDivider,
+    Text,
     useColorModeValue,
-    VisuallyHidden,
-    List,
-    ListItem,
-    Spinner,
 } from '@chakra-ui/react';
-import React, {useEffect, useState} from 'react'
-import {useParams} from "react-router-dom";
-import {cocktailAPI} from "../../../../api/cocktailAPI";
+import React, {useEffect} from 'react'
+import {NavLink, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getCocktailItem} from "../../../../store/goodsSelectionSlice/index";
+import {CheckCircleIcon} from "@chakra-ui/icons";
+import {fillUpBasket} from "../../../../store/basketSlice";
 
 export default function Cocktail() {
 
     const currentCocktailInfo = useSelector(state => state.cocktailList.cocktailItem)
     const status = useSelector(state => state.cocktailList.status)
-    console.log('currentCocktailInfo right now: ', currentCocktailInfo)
-    console.log('status: ', status)
+    console.log('currentCocktailInfo: ', currentCocktailInfo)
+    const basket = useSelector(state => state.basket.basket)
+    console.log('basket: ', basket)
+
+    const existInBasket = basket.find(product => product.id === currentCocktailInfo.id)
+
+
     const dispatch = useDispatch()
     const {id} = useParams()
+
 
     useEffect(() => {
         dispatch(getCocktailItem(id))
@@ -39,19 +41,13 @@ export default function Cocktail() {
 
     const IngredientsList = () => {
 
-        return <>
-            {currentCocktailInfo.ingredients
-                ? Object.entries(currentCocktailInfo.ingredients).map(([key, value]) =>
-                    <Box fontWeight='semibold'
-                         key={value + Math.random()}>
-                        {value ? value : null} {key}
-                    </Box>
-                )
-                : null
-            }
-        </>
+        return Object.entries(currentCocktailInfo.ingredients).map(([key, value]) =>
+            <Box fontWeight='semibold'
+                 key={value + Math.random()}>
+                {value ? value : null} {key}
+            </Box>
+        )
     }
-
 
     return (
         <Container maxW={'7xl'}>
@@ -127,21 +123,58 @@ export default function Cocktail() {
                         </Box>
                     </Stack>
 
-                    <Button
-                        rounded={'none'}
-                        w={'full'}
-                        mt={8}
-                        size={'lg'}
-                        py={'7'}
-                        bg={useColorModeValue('gray.900', 'gray.50')}
-                        color={useColorModeValue('white', 'gray.900')}
-                        textTransform={'uppercase'}
-                        _hover={{
-                            transform: 'translateY(2px)',
-                            boxShadow: 'lg',
-                        }}>
-                        Add to basket
-                    </Button>
+
+                    {existInBasket ?
+                        <NavLink to={'/basket'}>
+                            <IconButton
+                                rounded={'none'}
+                                w={'full'}
+                                size={'lg'}
+                                py={'7'}
+                                // bg={useColorModeValue('gray.900', 'gray.50')}
+                                bg={'green.600'}
+                                // color={useColorModeValue('white', 'gray.900')}
+                                color={"white"}
+                                textTransform={'uppercase'}
+                                _hover={{
+                                    transform: 'translateY(2px)',
+                                    boxShadow: 'lg',
+                                }}
+                                icon={<CheckCircleIcon/>}
+                            />
+                        </NavLink>
+
+                        :
+                        <Button
+                            rounded={'none'}
+                            w={'full'}
+                            mt={8}
+                            size={'lg'}
+                            py={'7'}
+                            color={"white"}
+                            textTransform={'uppercase'}
+                            _hover={{
+                                transform: 'translateY(2px)',
+                                boxShadow: 'lg',
+                            }}
+                            onClick={() => {
+                                dispatch(fillUpBasket(
+                                    {
+                                        name: currentCocktailInfo.name,
+                                        id: currentCocktailInfo.id,
+                                        img: currentCocktailInfo.img,
+                                        count: 1,
+                                        price: currentCocktailInfo.id.substring(0, 2) - 7,
+                                        totalPrice: currentCocktailInfo.id.substring(0, 2) - 7
+                                    }
+                                ))
+                            }
+                            }
+
+                        >
+                            Add to basket
+                        </Button>
+                    }
 
 
                 </Stack>
@@ -149,6 +182,8 @@ export default function Cocktail() {
 
 
         </Container>
+
+
     );
 }
 

@@ -16,9 +16,9 @@ export const getCocktailList = createAsyncThunk(
 
 export const getCocktailItem = createAsyncThunk(
     'cocktails/getCocktailItem',
-    async (id, {dispatch}) => {
+    async (id, {dispatch, getState}) => {
         const response = await cocktailAPI.getCocktailById(id)
-        console.log('response from getCocktailItem: ', response)
+        // console.log('response from getCocktailItem: ', response)
         const ingredients = response.data.drinks[0]
         return setIngredientsAndMeasures(ingredients)
     }
@@ -45,14 +45,11 @@ const goodsSelectionSlice = createSlice({
                     id: 'id from cocktailList',
                 }
             ],
-            cocktailItem: [
-                {
-                    name: 'name from cocktailItem',
-                    id: 'id from cocktailItem',
+            cocktailItem: {
+                    name: '',
+                    id: '',
                     ingredients: {}
-                }
-            ],
-
+                },
 
             status: null,
             error: null,
@@ -60,8 +57,13 @@ const goodsSelectionSlice = createSlice({
 
 
         reducers: {
-            clearStatus(state) {
-                state.status = null
+
+            clearCocktailCard(state){
+                state.cocktailItem = {
+                    name: '',
+                    id: '',
+                    ingredients: {}
+                }
             }
 
         },
@@ -82,7 +84,6 @@ const goodsSelectionSlice = createSlice({
 
 
             builder.addCase(getCocktailItem.pending, (state, action) => {
-                console.log('action payload from item: ', action)
                 state.status = 'pending'
             })
             builder.addCase(getCocktailItem.fulfilled, (state, action) => {
@@ -112,7 +113,7 @@ const goodsSelectionSlice = createSlice({
 )
 
 export const {
-    clearStatus
+    clearCocktailCard
 } = goodsSelectionSlice.actions
 
 export default goodsSelectionSlice.reducer

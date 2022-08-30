@@ -2,10 +2,11 @@ import React, {useEffect} from 'react'
 import {NavLink, useParams} from "react-router-dom";
 import {Box, Button, Heading, IconButton, Image, SimpleGrid, useColorModeValue} from "@chakra-ui/react";
 import {useDispatch, useSelector} from "react-redux";
-import {clearStatus, getCocktailList} from '../../../store/goodsSelectionSlice/index'
+import {clearCocktailCard, clearStatus, getCocktailList} from '../../../store/goodsSelectionSlice/index'
 import {fillUpBasket} from '../../../store/basketSlice/index'
 
 import {CheckCircleIcon} from '@chakra-ui/icons'
+import {useMatch} from "react-router";
 
 
 const GoodsSelection = () => {
@@ -16,16 +17,15 @@ const GoodsSelection = () => {
     const {ingredientName} = useParams()
 
 
-
-
     useEffect(() => {
         dispatch(getCocktailList(ingredientName))
     }, [ingredientName])
 
 
-    const clearLoadingStatus = () => {
-        dispatch(clearStatus())
+    const clearCard = () => {
+        dispatch(clearCocktailCard())
     }
+
 
     const CardButton = (props) => {
         const {info} = props
@@ -35,32 +35,36 @@ const GoodsSelection = () => {
 
         return (
             <> {
-                existInBasket
-                    ? <NavLink to={'/basket'}>
+                existInBasket ?
+
+                    <NavLink to={'/basket'}>
                         <IconButton
                             p={'1rem'}
+                            w={'8rem'}
                             bg={'green.400'}
                             color={'grey.300'}
                             aria-label="More server options"
                             variant="solid"
-                            w="fit-content"
                             icon={<CheckCircleIcon/>}
                         />
                     </NavLink>
-                    : <Button onClick={() => {
 
-                        dispatch(fillUpBasket(
-                            {
-                                name: strDrink,
-                                id: idDrink,
-                                img: strDrinkThumb,
-                                count: 1,
-                                price: idDrink.substring(0, 2) - 7,
-                                totalPrice: Number(idDrink.substring(0, 2) - 7)
-                            }
-                        ))
-                    }
-                    }
+                    : <Button
+                        w={'8rem'}
+                        onClick={() => {
+                            dispatch(fillUpBasket(
+                                {
+                                    name: strDrink,
+                                    id: idDrink,
+                                    img: strDrinkThumb,
+                                    count: 1,
+                                    price: idDrink.substring(0, 2) - 7,
+                                    totalPrice: Number(idDrink.substring(0, 2) - 7)
+                                }
+                            ))
+                        }
+                        }
+
                     >
                         Add to Basket</Button>
             }
@@ -80,8 +84,10 @@ const GoodsSelection = () => {
                  overflow='hidden'
             >
                 <NavLink
-                    onClick={clearLoadingStatus}
-                    to={`${el.idDrink}`}>
+
+                    onClick={clearCard}
+                    to={`/cocktail/${el.idDrink}`}
+                >
                     <Image src={el.strDrinkThumb} alt='imageAlt'/>
                 </NavLink>
 
@@ -102,10 +108,12 @@ const GoodsSelection = () => {
 
                 <Box display='flex' mt='2' alignItems='center'>
                     <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+
                         {el.idDrink
                             ? el.idDrink.substring(0, 2) - 7
                             : null
                         } $
+
                     </Box>
                 </Box>
             </Box>
@@ -130,11 +138,11 @@ const GoodsSelection = () => {
                 gap={6}
 
             >
-            <ItemCardCreator/>
-        </SimpleGrid>
-</Box>
+                <ItemCardCreator/>
+            </SimpleGrid>
+        </Box>
 
-)
+    )
 }
 
 export default GoodsSelection

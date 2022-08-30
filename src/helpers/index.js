@@ -1,7 +1,7 @@
 //Filter ingredients and Measures from api request
+import React from "react";
 
 export const setIngredientsAndMeasures = (tempCocktail) => {
-    console.log('tempCocktail: ', tempCocktail)
     const asArray = Object.entries(tempCocktail)
     const filtered = asArray.filter(([key, value]) => typeof value === 'string')
     const justStrings = Object.fromEntries(filtered)
@@ -32,21 +32,7 @@ export const setIngredientsAndMeasures = (tempCocktail) => {
 }
 
 
-//Sum price of basket items
-export const sumPricePerItemHandler = (count, pricePerItem) => {
 
-    const price = pricePerItem.substring(0, 2) - 7 //Getting at least smt, what we can use as price
-    const sum = count * (price)
-
-    const correct = sum % count === 0 && sum > 0
-    if (correct) {
-        return sum + `$`
-    } else return <div>
-        Error, smt strange was occurred
-    </div>
-
-
-}
 
 // In case if we want increment the button at goodsSelection
 // const exist = state.basket.find(product => product.id === payload.id)
@@ -63,3 +49,20 @@ export const sumPricePerItemHandler = (count, pricePerItem) => {
 //                     totalPrice: parseInt(payload.id.substring(0, 2) - 7) *  state.count
 //                 })
 //             // }
+
+
+// const addToBasket = (name, id, img) =>{
+//
+//     const dispatch = useDispatch()
+//
+//     dispatch(fillUpBasket(
+//         {
+//             name: name,
+//             id: id,
+//             img: img,
+//             count: 1,
+//             price: id.substring(0, 2) - 7,
+//             totalPrice: Number(id.substring(0, 2) - 7)
+//         }
+//     ))
+// }
