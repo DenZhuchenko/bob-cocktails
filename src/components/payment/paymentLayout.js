@@ -6,9 +6,7 @@ const PaymentLayout = ({children}) => {
     const navigate = useNavigate()
     const totalSum = useSelector(state => state.basket.sumPrice)
 
-
     console.log('totalSum from paymentLayout: ', totalSum)
-
 
     const redirectHandler = () =>{
         if (!totalSum){
@@ -19,8 +17,6 @@ const PaymentLayout = ({children}) => {
     useEffect(() =>{
         redirectHandler()
     }, [])
-
-
 
     return (
         <>

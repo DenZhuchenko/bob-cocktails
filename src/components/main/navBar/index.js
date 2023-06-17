@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Text, useColorModeValue,} from '@chakra-ui/react';
+import {Box, Text} from '@chakra-ui/react';
 import {NavLink} from "react-router-dom";
 import {cocktailAPI} from "../../../api/cocktailAPI";
 
@@ -38,11 +38,7 @@ export default function SimpleSidebar() {
 
 
     return (
-        <Box
-            // bg={useColorModeValue('orange.200', 'gray.800')}
-            // color={useColorModeValue('gray.600', 'gray.100')}
-            pt={'10px'}
-        >
+        <Box pt={'10px'}>
             <CategoriesHandler
                 display={{base: 'none', md: 'block'}}
             />
@@ -50,58 +46,6 @@ export default function SimpleSidebar() {
         </Box>
     );
 }
-
-
-//------------------------
-
-
-// import React, {useEffect, useState} from 'react'
-// import styles from './navBar.module.css'
-// import {NavLink} from "react-router-dom";
-// import {cocktailAPI} from "../../../api/cocktailAPI";
-//
-// const NavBar = () => {
-//
-//
-//
-//     useEffect(  () =>{
-//         cocktailAPI.getCocktailList().then(res =>
-//             setCategories(res)
-//         )
-//     }, [])
-//
-//
-//     const [categories, setCategories] = useState({})
-//
-//
-//     const CategoriesHandler = () => {
-//         return Object.keys(categories).map((el) =>
-//             <div className={styles.categories} key={el}>
-//                 <NavLink
-//                     to={`${categories[el].strIngredient1}`}>
-//                     {categories[el].strIngredient1}
-//                 </NavLink>
-//             </div>
-//         )
-//     }
-//
-//     return (
-//         <div>
-//             <CategoriesHandler/>
-//         </div>
-//     )
-// }
-//
-// export default NavBar
-
-
-
-
-
-
-
-
-
 
 
 

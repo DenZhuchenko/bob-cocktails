@@ -14,14 +14,11 @@ export const cocktailAPI = {
 
     getCocktailById(id) {
         return instance.get(`lookup.php?i=${id}`)
-            .then(res => res
-        // res.data.drinks[0]
-            )
+            .then(res => res)
     },
 
     getCocktailBeIngredientName(ingredientName) {
         return instance.get(`filter.php?i=${ingredientName}`)
             .then(res => res)
     }
-
 }

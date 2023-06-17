@@ -1,4 +1,3 @@
-// Import the functions you need from the SDKs you need
 import {initializeApp} from "firebase/app";
 import {getStorage} from "firebase/storage";
 import {
@@ -22,17 +21,8 @@ const firebaseConfig = {
     appId: "1:992653670865:web:8a41874420cb155dfd08f0",
     measurementId: "G-DBMD3BRGY0"
 
-    // apiKey: "AIzaSyDE5BM4cvTw69Cs-pthg_Sx9AGXS8TKZXk",
-    // authDomain: "bobstore-8a731.firebaseapp.com",
-    // databaseURL: "https://bobstore-8a731-default-rtdb.europe-west1.firebasedatabase.app",
-    // projectId: "bobstore-8a731",
-    // storageBucket: "bobstore-8a731.appspot.com",
-    // messagingSenderId: "992653670865",
-    // appId: "1:992653670865:web:65f131c3089a2259fd08f0",
-    // measurementId: "G-WYE6WTZ5BN"
 };
 
-// Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
 export const storage = getStorage(firebaseApp);
 export const auth = getAuth()

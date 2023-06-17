@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {Box, Button, Flex, FormControl, Input, useColorModeValue, VStack} from "@chakra-ui/react";
 import {Form, Formik} from "formik";
 import * as Yup from 'yup'
@@ -11,12 +11,9 @@ const Payment = () => {
     const dispatch = useDispatch()
     const order = useSelector(state => state.basket.basket)
     const totalSum = useSelector(state => state.basket.sumPrice)
-    // console.log('totalSum: ', totalSum)
 
     const client = useSelector(state => state.auth.currentUser)
     const navigate = useNavigate()
-
-
 
 
     const invalidChars = [
@@ -55,7 +52,6 @@ const Payment = () => {
         });
 
         setInputFilter(document.getElementById("dateM"), function (value) {
-
             return /^\d*$/.test(value) && (value === "" || (parseInt(value) > 0 && parseInt(value) <= 12))
         });
 
@@ -68,13 +64,6 @@ const Payment = () => {
         });
 
     }, [])
-
-
-
-
-
-
-
 
     const validationSchema = Yup.object().shape({
 
@@ -97,10 +86,7 @@ const Payment = () => {
             .required('Required')
             .matches(/^[0-9]+$/, "Must be only digits")
             .max(3, 'CVV must contain 3 digits')
-        ,
     })
-
-
 
     return (
         <Flex

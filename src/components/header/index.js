@@ -17,11 +17,10 @@ import {basketAfterReload, clearAllBasket} from "../../store/basketSlice";
 import {setCurrentUser} from "../../store/authSlice";
 import {getAuth,} from 'firebase/auth'
 import {MoonIcon, SunIcon} from "@chakra-ui/icons";
-import basketSVG from '../../assets/basketSVG.svg'
+import basketSVG from '../../assets/Basket.png'
 
 
 export default function Header() {
-
 
     const auth = getAuth()
 
@@ -29,7 +28,6 @@ export default function Header() {
     const {colorMode, toggleColorMode} = useColorMode();
     const basketData = useSelector(state => state.basket.basket)
     const userData = useSelector(state => state.auth.currentUser)
-
 
     const dispatch = useDispatch()
     const basketBeforeInitialize = JSON.parse(localStorage.getItem('order'))
@@ -51,8 +49,6 @@ export default function Header() {
     }, [user])
 
 
-
-
     return (
         <Box>
             <Flex
@@ -63,7 +59,6 @@ export default function Header() {
                 borderBottom={1}
                 borderStyle={'solid'}
                 align={'center'}>
-
 
                 <Flex flex={{base: 1}} justify={{base: 'center', md: 'start'}}>
                     <NavLink to={'/Light%20rum'}>
@@ -79,11 +74,12 @@ export default function Header() {
                     </NavLink>
                 </Flex>
 
-
                 <NavLink to={'/basket'}>
                     <Button color={useColorModeValue('gray.800', 'white')} h={'3rem'} mr={'5rem'}>
-                        <Img src={basketSVG} alt={'basket'}/>
+                        <Img h={'50px'} src={basketSVG} alt={'basket'}/>
+                        <Box pl={'10px'}>
                             {basketData.length ? basketData.length : null}
+                        </Box>
                     </Button>
                 </NavLink>
                 <>
@@ -131,9 +127,7 @@ export default function Header() {
                     {colorMode === 'light' ? <MoonIcon/> : <SunIcon/>}
                 </Button>
 
-
             </Flex>
-
 
         </Box>
     );

@@ -54,7 +54,6 @@ const Registration = () => {
 
     return (
         <div>
-
                 <Flex
                     bg={useColorModeValue('orange.200', 'gray.800')}
                     color={useColorModeValue('gray.600', 'gray.800')}
@@ -81,9 +80,7 @@ const Registration = () => {
                                 onSubmit={async (values, {resetForm}) => {
                                     await createUser(values.email, values.password).then(res => {
                                         navigate('/', {replace: true})
-
                                     })
-                                    // await updateProfileHandled(values.login)
                                     resetForm({
                                         login: '',
                                         email: '',
@@ -119,7 +116,8 @@ const Registration = () => {
                                                 onBlur={handleBlur}
                                                 placeholder={'Enter Login'}
                                             />
-                                            {touched.login && errors.login &&
+                                            {
+                                                touched.login && errors.login &&
                                                 <div color='red'>{errors.login}</div>
                                             }
                                         </FormControl>
@@ -135,7 +133,8 @@ const Registration = () => {
                                                 onBlur={handleBlur}
                                                 placeholder={'Enter Email'}
                                             />
-                                            {touched.email && errors.email &&
+                                            {
+                                                touched.email && errors.email &&
                                                 <div color='red'>{errors.email}</div>
                                             }
                                         </FormControl>
@@ -151,7 +150,8 @@ const Registration = () => {
                                                 onBlur={handleBlur}
                                                 placeholder={'Confirm Email'}
                                             />
-                                            {touched.confirmEmail && errors.confirmEmail &&
+                                            {
+                                                touched.confirmEmail && errors.confirmEmail &&
                                                 <div color='red'>{errors.confirmEmail}</div>
                                             }
                                         </FormControl>
@@ -169,7 +169,8 @@ const Registration = () => {
                                             />
 
                                             <FormErrorMessage>
-                                                {touched.password && errors.password &&
+                                                {
+                                                    touched.password && errors.password &&
                                                     <div>{errors.password}</div>
                                                 }
                                             </FormErrorMessage>

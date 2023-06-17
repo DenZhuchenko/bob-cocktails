@@ -8,7 +8,6 @@ export const getCocktailList = createAsyncThunk(
     'cocktails/getCocktailList',
     async (ingredientName, {dispatch}) => {
         const response = await cocktailAPI.getCocktailBeIngredientName(ingredientName)
-        // dispatch(clearStatus())
         return response.data.drinks
     }
 )
@@ -50,14 +49,11 @@ const goodsSelectionSlice = createSlice({
                     id: '',
                     ingredients: {}
                 },
-
             status: null,
             error: null,
         },
 
-
         reducers: {
-
             clearCocktailCard(state){
                 state.cocktailItem = {
                     name: '',
@@ -65,9 +61,7 @@ const goodsSelectionSlice = createSlice({
                     ingredients: {}
                 }
             }
-
         },
-
 
         extraReducers: (builder) => {
 
@@ -94,7 +88,6 @@ const goodsSelectionSlice = createSlice({
                 state.status = 'rejected'
             })
 
-
             builder.addCase(logoutUser.pending, (state) => {
                 state.status = 'pending'
             })
@@ -106,7 +99,6 @@ const goodsSelectionSlice = createSlice({
             builder.addCase(logoutUser.rejected, (state) => {
                 state.status = 'rejected'
             })
-
 
         }
     }

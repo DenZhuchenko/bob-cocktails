@@ -3,25 +3,10 @@ import {NavLink} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 
-// const SumPriceLayout = ({children}) => {
-//
-//     const sumPrice = useSelector(state => state.basket.sumPrice)
-//
-//     return (
-//         <>
-//             {
-//                 sumPrice ?
-//                     {children}
-//                     : null
-//             }
-//         </>
-//     )
-// }
-
-
 const SumPrice = () => {
 
     const sumPrice = useSelector(state => state.basket.sumPrice)
+
     return (
         <Box
             bg={useColorModeValue('white', 'gray.600')}
@@ -35,7 +20,6 @@ const SumPrice = () => {
 
                 >
                     Total: {sumPrice} $
-
                     <NavLink to={'/payment'}>
                         <Button
                             ml={'2rem'}

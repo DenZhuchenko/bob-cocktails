@@ -1,5 +1,4 @@
 //Filter ingredients and Measures from api request
-import React from "react";
 
 export const setIngredientsAndMeasures = (tempCocktail) => {
     const asArray = Object.entries(tempCocktail)
