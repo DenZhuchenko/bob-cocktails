@@ -12,7 +12,6 @@ export default function SimpleSidebar() {
         )
     }, [])
 
-
     const CategoriesHandler = () => {
         return Object.keys(categories).map((el, key) =>
             <Box

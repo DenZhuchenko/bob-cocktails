@@ -10,12 +10,9 @@ import Basket from "./components/header/basket/basket";
 import Payment from "./components/payment";
 import AuthLayout from "./components/auth/authLayout";
 import PaymentLayout from "./components/payment/paymentLayout";
-import {useSelector} from "react-redux";
 
 
 const App = () => {
-
-    const loggedIn = useSelector(state => state.auth.currentUser)
 
     return (
         <>
@@ -23,10 +20,8 @@ const App = () => {
                 <Route path={'/'} element={<AppLayout/>}>
 
                     <Route path={'/'} element={<MainLayout/>}>
-
                         <Route path={':ingredientName'} element={<GoodsSelection/>}/>
                         <Route path={`cocktail/:id`} element={<Cocktail/>}/>
-
                     </Route>
 
                     <Route path={`registration`} element={
@@ -35,22 +30,18 @@ const App = () => {
                         </AuthLayout>}/>
                     <Route path={'test'} element={<p>Test</p>}/>
 
-
                     <Route path={`login`} element={
                         <AuthLayout>
                             <Login/>
                         </AuthLayout>
                     }/>
 
-
                     <Route path={'basket'} element={<Basket/>}/>
-
                     <Route path={'payment'} element={
                         <PaymentLayout>
                             <Payment/>
                         </PaymentLayout>
                     }/>
-
                     <Route path='*' element={<PageNotFound/>}/>
                 </Route>
             </Routes>

@@ -58,7 +58,6 @@ export const signInUser = async (email, password) => {
         })
 }
 
-
 export const signOutUser = () => {
     return signOut(auth)
         .then(() => {
@@ -71,9 +70,7 @@ export const signOutUser = () => {
         })
 }
 
-
 export const userObserver = async () => {
-
     await onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log('uid from userObserver: ', user.uid)

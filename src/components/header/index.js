@@ -34,12 +34,6 @@ export default function Header() {
         ? JSON.parse(localStorage.getItem('order'))
         : null
 
-
-    // const clearBasket = () => {
-    //     dispatch(clearAllBasket())
-    // }
-
-
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             setUser(user)
@@ -47,7 +41,6 @@ export default function Header() {
         dispatch(setCurrentUser(user))
         dispatch(basketAfterReload(basketBeforeInitialize))
     }, [user])
-
 
     return (
         <Box>
@@ -83,44 +76,43 @@ export default function Header() {
                     </Button>
                 </NavLink>
                 <>
-                    {userData
-                        ? <Button
-                            pr={'3rem'}
-                            justify={'flex-end'}
-                            as={'a'}
-                            fontSize={'sm'}
-                            fontWeight={400}
-                            variant={'link'}
-                            href={'#'}
-                            onClick={signOutUser}
-                        >
-                            Sign Out
-                        </Button>
+                    {
+                        userData
+                            ? <Button
+                                pr={'3rem'}
+                                justify={'flex-end'}
+                                as={'a'}
+                                fontSize={'sm'}
+                                fontWeight={400}
+                                variant={'link'}
+                                href={'#'}
+                                onClick={signOutUser}
+                            >
+                                Sign Out
+                            </Button>
 
-                        : <Stack
-                            flex={{base: 1, md: 0}}
-                            justify={'flex-end'}
-                            direction={'row'}
-                            spacing={6}>
+                            : <Stack
+                                flex={{base: 1, md: 0}}
+                                justify={'flex-end'}
+                                direction={'row'}
+                                spacing={6}>
 
-                            <NavLink to={'/login'}>
-                                <Button
-                                    display={{base: 'none', md: 'inline-flex'}}
-                                    fontSize={'sm'}
-                                    fontWeight={600}
-                                    color={'white'}
-                                    bg={'pink.400'}
-                                    mr={'3rem'}
-                                    href={'#'}
-                                    _hover={{
-                                        bg: 'pink.300',
-                                    }}>
-                                    Sign In
-                                </Button>
-                            </NavLink>
-
-
-                        </Stack>
+                                <NavLink to={'/login'}>
+                                    <Button
+                                        display={{base: 'none', md: 'inline-flex'}}
+                                        fontSize={'sm'}
+                                        fontWeight={600}
+                                        color={'white'}
+                                        bg={'pink.400'}
+                                        mr={'3rem'}
+                                        href={'#'}
+                                        _hover={{
+                                            bg: 'pink.300',
+                                        }}>
+                                        Sign In
+                                    </Button>
+                                </NavLink>
+                            </Stack>
                     }
                 </>
                 <Button onClick={toggleColorMode}>

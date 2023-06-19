@@ -26,7 +26,6 @@ const GoodsSelection = () => {
     const CardButton = (props) => {
         const {info} = props
         const {idDrink, strDrink, strDrinkThumb} = info
-
         const existInBasket = basket.find(product => product.id === idDrink)
 
         return (
@@ -81,7 +80,6 @@ const GoodsSelection = () => {
                  overflow='hidden'
             >
                 <NavLink
-
                     onClick={clearCard}
                     to={`/cocktail/${el.idDrink}`}
                 >
