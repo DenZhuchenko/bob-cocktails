@@ -25,7 +25,6 @@ const SumPrice = () => {
 };
 
 export default SumPrice;
-
 //
 // import {Box, Button} from "@chakra-ui/react";
 // import {NavLink} from "react-router-dom";

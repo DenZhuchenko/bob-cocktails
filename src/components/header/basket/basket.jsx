@@ -38,15 +38,21 @@ const Basket = () => {
             },
             '&::-webkit-scrollbar-thumb': {
               background: 'grey',
+
               borderRadius: '24px',
             },
           }}
         >
           <VStack>
-            {basketItems.length > 0 ? (
-              <>
-                <BasketItem basketItems={basketItems} />
-              </>
+            {basketItems ? (
+              <HStack>
+                <Box>
+                  <BasketItem basketItems={basketItems} />
+                </Box>
+                <Box position={'sticky'} top={0} bottom={574.5} right={0}>
+                  <SumPrice />
+                </Box>
+              </HStack>
             ) : (
               <div>
                 <Img pt={'10rem'} src={emptyIco} alt={'emptyBasket'} />
@@ -55,9 +61,7 @@ const Basket = () => {
             )}
           </VStack>
         </Box>
-        <Box pl={'100rem'}>
-          <SumPrice />
-        </Box>
+        <Box pl={'100rem'}></Box>
       </HStack>
     </Flex>
   );
