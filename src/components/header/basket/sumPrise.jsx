@@ -1,41 +1,30 @@
-import {Box, Button, useColorModeValue} from "@chakra-ui/react";
-import {NavLink} from "react-router-dom";
-import {useSelector} from "react-redux";
-
+import { Box, Button, useColorModeValue } from '@chakra-ui/react';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const SumPrice = () => {
+  const sumPrice = useSelector((state) => state.basket.sumPrice);
 
-    const sumPrice = useSelector(state => state.basket.sumPrice)
-
-    return (
-        <Box
-            bg={useColorModeValue('white', 'gray.600')}
-            color={useColorModeValue('gray.700', 'white')}
-        >
-            {sumPrice ?
-                <Box
-                    border={"2px solid green"}
-                    borderRadius={'5px'}
-                    p={'25px'}
-
-                >
-                    Total: {sumPrice} $
-                    <NavLink to={'/payment'}>
-                        <Button
-                            ml={'2rem'}
-                            bg={'green.400'}
-                        >Buy now
-                        </Button>
-                    </NavLink>
-
-                </Box>
-                : null
-            }
+  return (
+    <Box
+      bg={useColorModeValue('white', 'gray.600')}
+      color={useColorModeValue('gray.700', 'white')}
+    >
+      {sumPrice ? (
+        <Box border={'2px solid green'} borderRadius={'5px'} p={'25px'}>
+          Total: {sumPrice} $
+          <NavLink to={'/payment'}>
+            <Button ml={'2rem'} bg={'green.400'}>
+              Buy now
+            </Button>
+          </NavLink>
         </Box>
-    )
-}
+      ) : null}
+    </Box>
+  );
+};
 
-export default SumPrice
+export default SumPrice;
 
 //
 // import {Box, Button} from "@chakra-ui/react";
