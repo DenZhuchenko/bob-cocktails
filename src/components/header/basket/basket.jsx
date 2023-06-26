@@ -7,7 +7,6 @@ import emptyIco from './../../../assets/modal-cart-dummy.svg';
 
 const Basket = () => {
   const basketItems = useSelector((state) => state.basket.basket);
-
   return (
     <Flex
       minH="90vh"
@@ -38,13 +37,12 @@ const Basket = () => {
             },
             '&::-webkit-scrollbar-thumb': {
               background: 'grey',
-
               borderRadius: '24px',
             },
           }}
         >
           <VStack>
-            {basketItems ? (
+            {basketItems.length ? (
               <HStack>
                 <Box>
                   <BasketItem basketItems={basketItems} />

@@ -8,6 +8,7 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
+import axios from 'axios';
 // npm install -g firebase-tools//
 
 const firebaseConfig = {
@@ -86,6 +87,16 @@ export const updateProfileHandled = async (login) => {
       console.log('Profile Info updated');
     })
     .catch((error) => {
-      console.log('An error occurred');
+      console.log('An error occurred', error);
     });
+};
+
+export const purchaseDataByUserID = async () => {
+  const post = await axios
+    .post(`https://bobstore-8a731-default-rtdb.europe-west1.firebasedatabase.app/`, {
+      name: 'userUID',
+      value: 'testValue',
+    })
+    .then((res) => res);
+  console.log('post: ', post);
 };

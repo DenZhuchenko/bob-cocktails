@@ -21,7 +21,6 @@ import basketSVG from '../../assets/Basket.png';
 
 export default function Header() {
   const auth = getAuth();
-
   const [user, setUser] = useState(null);
   const { colorMode, toggleColorMode } = useColorMode();
   const basketData = useSelector((state) => state.basket.basket);

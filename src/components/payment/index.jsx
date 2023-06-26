@@ -13,8 +13,14 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearAllBasket } from '../../store/basketSlice';
 import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+import { purchaseDataByUserID } from '../../api/firebase';
+import axios from 'axios';
 
 const Payment = () => {
+  const auth = getAuth();
+  const userID = auth.currentUser?.uid;
+
   const dispatch = useDispatch();
   const order = useSelector((state) => state.basket.basket);
   const totalSum = useSelector((state) => state.basket.sumPrice);
@@ -95,7 +101,8 @@ const Payment = () => {
     dateY: Yup.string()
       .required('Required')
       .matches(/^[0-9]+$/, 'Must be only digits')
-      .max(4, 'Must contain 4 digits'),
+      .max(4, 'Must contain 4 digits')
+      .min(2, 'Must contain 4 digits'),
 
     cvv: Yup.string()
       .required('Required')
@@ -120,22 +127,29 @@ const Payment = () => {
         color={useColorModeValue('gray.600', 'gray.100')}
       >
         <Formik
+          onSubmit={async (values, { resetForm }) => {
+            // here we can put this info into googleFirebase, ect
+            console.log('Client ID: ', client ? client.uid : null);
+            console.log('Client email: ', client ? client.email : null);
+            // console.log('Payment Info: ', values);
+            // console.log('Order: ', order);
+            // console.log('totalSum: ', totalSum);dssad
+            const transitionPayload = {
+              paymentInfo: values,
+              order: order,
+              totalSum: totalSum,
+              data: new Date(),
+            };
+            console.log('transitionPayload: ', transitionPayload);
+            resetForm('');
+            dispatch(clearAllBasket());
+            navigate('/Light%20rum', { replace: true });
+          }}
           initialValues={{
             number: '',
             dateM: '',
             dateY: '',
             cvv: '',
-          }}
-          onSubmit={async (values, { resetForm }) => {
-            // post this info into googleFirebase
-            console.log('Client ID: ', client ? client.uid : null);
-            console.log('Client email: ', client ? client.email : null);
-            console.log('Payment Info: ', values);
-            console.log('Order: ', order);
-            console.log('totalSum: ', totalSum);
-            resetForm('');
-            dispatch(clearAllBasket());
-            navigate('/Light%20rum', { replace: true });
           }}
           validationSchema={validationSchema}
         >

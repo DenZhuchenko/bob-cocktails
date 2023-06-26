@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   FormControl,
   Input,
@@ -93,15 +92,15 @@ const Login = () => {
                       placeholder={'Enter Password'}
                     />
                   </FormControl>
-                  <Checkbox
-                    type={'checkbox'}
-                    id={'rememberMe'}
-                    name={'rememberMe'}
-                    onChange={handleChange}
-                    isChecked={values.rememberMe}
-                  >
-                    Remember Me
-                  </Checkbox>
+                  {/* <Checkbox*/}
+                  {/*  type={'checkbox'}*/}
+                  {/*  id={'rememberMe'}*/}
+                  {/*  name={'rememberMe'}*/}
+                  {/*  onChange={handleChange}*/}
+                  {/*  isChecked={values.rememberMe}*/}
+                  {/* >*/}
+                  {/*  Remember Me*/}
+                  {/* </Checkbox>*/}
 
                   <Button
                     type={'submit'}
