@@ -29,8 +29,6 @@ const RouterPage = () => {
             </AuthLayout>
           }
         />
-        <Route path={'test'} element={<p>Test</p>} />
-
         <Route
           path={`login`}
           element={

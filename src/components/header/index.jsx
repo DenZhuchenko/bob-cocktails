@@ -40,15 +40,17 @@ export default function Header() {
   }, [user]);
 
   return (
-    <Box>
+    <Box position={'fixed'} top={0} left={0} right={0}>
       <Flex
         bg={useColorModeValue('orange.300', 'gray.900')}
         color={useColorModeValue('gray.600', 'grey.400')}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={'solid'}
-        align={'center'}
+        display={'flex'}
+        backgroundSize={'cover'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        width={'100%'}
+        minH={'4rem'}
+        boxSizing={'border-box'}
       >
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
           <NavLink to={'/Light%20rum'}>
@@ -110,7 +112,7 @@ export default function Header() {
             </Stack>
           )}
         </>
-        <Button onClick={toggleColorMode}>
+        <Button mr={'1rem'} onClick={toggleColorMode}>
           {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
         </Button>
       </Flex>
