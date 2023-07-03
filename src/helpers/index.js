@@ -1,8 +1,8 @@
 // Filter ingredients and Measures from api request
 
 export const setIngredientsAndMeasures = (tempCocktail) => {
-  const asArray = Object.entries(tempCocktail);
-  const filtered = asArray.filter(([key, value]) => typeof value === 'string');
+  const dataAsArray = Object.entries(tempCocktail);
+  const filtered = dataAsArray.filter(([key, value]) => typeof value === 'string');
   const justStrings = Object.fromEntries(filtered);
 
   const SortedIngredients = Object.fromEntries(

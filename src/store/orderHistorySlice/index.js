@@ -14,6 +14,7 @@ const orderHistorySlice = createSlice({
   reducers: {
     fillOrderHistory(state, action) {
       const payload = action.payload;
+      console.log('payload: ', payload);
       state.orderHistory.push({
         name: payload.name,
         id: payload.id,
@@ -23,5 +24,5 @@ const orderHistorySlice = createSlice({
   },
 });
 
-export const {} = orderHistorySlice.actions;
+export const { fillOrderHistory } = orderHistorySlice.actions;
 export default orderHistorySlice.reducer;

@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import { purchaseDataByUserID } from '../../api/firebase';
 import axios from 'axios';
+import {fillOrderHistory} from "../../store/orderHistorySlice";
 
 const Payment = () => {
   const auth = getAuth();
@@ -127,16 +128,18 @@ const Payment = () => {
             console.log('Client ID: ', client ? client.uid : null);
             console.log('Client email: ', client ? client.email : null);
             // console.log('values from paymeny: ', values);
-            const transitionPayload = {
+            const paymentData = {
               paymentInfo: values,
               order: order,
               totalSum: totalSum,
               data: new Date(),
-            };
-            console.log('transitionPayload: ', transitionPayload);
+            }
+            const transitionPayload = paymentData;
+            console.log('paymentData: ', paymentData);
             resetForm('');
             dispatch(clearAllBasket());
             navigate('/Light%20rum', { replace: true });
+            fillOrderHistory(paymentData)
           }}
           initialValues={{
             number: '',
